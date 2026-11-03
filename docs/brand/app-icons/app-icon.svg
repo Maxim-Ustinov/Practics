@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512" role="img" aria-label="TenderScope">
+  <title>TenderScope</title>
+  <defs>
+    <radialGradient id="tsglow" cx="46%" cy="34%" r="62%">
+      <stop offset="0" stop-color="#4F7CFF" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#4F7CFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" fill="#1F1F1F"/>
+  <rect width="200" height="200" fill="url(#tsglow)"/>
+  <g transform="translate(23.56 23.56) scale(0.78)"><g transform="translate(-2 -2)" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="85" cy="85" r="55" stroke="#4F7CFF" stroke-width="11"/><path d="M127 127L169 169" stroke="#4F7CFF" stroke-width="20"/><path d="M60 90L80 108L115 68" stroke="#FFB547" stroke-width="12"/></g></g>
+</svg>

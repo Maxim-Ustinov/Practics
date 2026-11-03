@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TenderScope — умный поиск закупок для бизнеса</title>
+  <meta name="description" content="TenderScope — умный поиск госзакупок по 44-ФЗ и 223-ФЗ для ИП и малых ООО. Опишите запрос в чате и получите AI-оценку: стоит ли участвовать.">
+  <meta name="theme-color" content="#1F1F1F">
+  <link rel="canonical" href="https://tenderscope.ru/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="TenderScope">
+  <meta property="og:title" content="TenderScope — умный поиск закупок для бизнеса">
+  <meta property="og:description" content="Опишите, что ищете, — AI соберёт фильтры, будет следить за ЕИС и скажет, стоит ли участвовать. Для ИП и малых ООО.">
+  <meta property="og:url" content="https://tenderscope.ru/">
+  <meta property="og:image" content="https://tenderscope.ru/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="TenderScope — умный поиск закупок для бизнеса">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TenderScope — умный поиск закупок для бизнеса">
+  <meta name="twitter:description" content="AI-поиск госзакупок по 44-ФЗ и 223-ФЗ: чат вместо фильтров и оценка «стоит ли участвовать».">
+  <meta name="twitter:image" content="https://tenderscope.ru/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://tenderscope.ru/#organization",
+        "name": "TenderScope",
+        "url": "https://tenderscope.ru/",
+        "logo": "https://tenderscope.ru/assets/logo.svg",
+        "email": "hello@tenderscope.ru",
+        "sameAs": ["https://t.me/tenderscope"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://tenderscope.ru/#website",
+        "url": "https://tenderscope.ru/",
+        "name": "TenderScope",
+        "description": "AI-поиск госзакупок по 44-ФЗ и 223-ФЗ для ИП и малых ООО.",
+        "inLanguage": "ru-RU",
+        "publisher": { "@id": "https://tenderscope.ru/#organization" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-4-.9L3 21l1.9-4.6A8.4 8.4 0 1 1 21 11.5Z"/></symbol>
+    <symbol id="icon-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3Z"/><path d="M19 15.5 19.8 17.7 22 18.5l-2.2.8L19 21.5l-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"/></symbol>
+    <symbol id="icon-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+    <symbol id="icon-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16v-5M12 16V7M17 16v-3"/></symbol>
+    <symbol id="icon-bookmark" viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></symbol>
+    <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="icon-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="icon-wallet" viewBox="0 0 24 24"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7H5"/><path d="M17 13h.01"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="icon-telegram" viewBox="0 0 24 24"><path d="m21 3-9 18-2.5-7.5L3 11l18-8Z"/><path d="m9.5 13.5 4.5-4.5"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="icon-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14"/><path d="m5 7-3 6h6L5 7ZM19 7l-3 6h6l-3-6Z"/></symbol>
+    <symbol id="icon-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="icon-building" viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M16 9h2a2 2 0 0 1 2 2v10M2 21h20M8 7h4M8 11h4M8 15h4"/></symbol>
+    <symbol id="icon-tools" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-2.4 2.6-2.6Z"/></symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  </svg>
+
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="TenderScope — на главную">
+        <img src="assets/logo.svg" width="38" height="38" alt="">
+        <span class="brand-word">Tender<span>Scope</span></span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" data-nav aria-label="Основная навигация">
+        <a href="#problem">Проблема</a>
+        <a href="#how">Как работает</a>
+        <a href="#features">Возможности</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#audience">Для кого</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-primary btn-sm nav-cta" href="#request">Оставить заявку</a>
+      </nav>
+
+      <a class="btn btn-primary btn-sm header-cta" href="#request">Оставить заявку</a>
+
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Открыть меню">
+        <svg class="icon menu-icon-open" aria-hidden="true"><use href="#icon-menu"/></svg>
+        <svg class="icon menu-icon-close" aria-hidden="true"><use href="#icon-close"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1. HERO -->
+    <section class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot"></span>44-ФЗ и 223-ФЗ · ЕИС zakupki.gov.ru</p>
+          <h1>Умный поиск закупок <span class="accent-text">для бизнеса</span></h1>
+          <p class="hero-lead">Опишите, что ищете, обычными словами. TenderScope превратит запрос в фильтры, будет следить за ЕИС и скажет, стоит ли участвовать.</p>
+          <p class="hero-sub">Для ИП и малых ООО без тендерного отдела: чат вместо десятков фильтров, лента вместо ежедневной ручной проверки сайта, AI-разбор документов вместо чтения ТЗ целиком.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#request">
+              Оставить заявку на ранний доступ
+              <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg>
+            </a>
+            <a class="btn btn-ghost btn-lg" href="https://t.me/tenderscope" target="_blank" rel="noopener noreferrer">
+              <svg class="icon" aria-hidden="true"><use href="#icon-telegram"/></svg>
+              Написать в Telegram
+            </a>
+          </div>
+
+          <p class="hero-note">
+            <svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>
+            Free без карты: 5 сообщений в чат в день, 1 профиль поиска
+          </p>
+        </div>
+
+        <div class="hero-visual">
+          <img class="hero-radar" src="assets/illustration-radar.svg" width="600" height="600" alt="" aria-hidden="true">
+          <figure class="phone-figure">
+            <div class="phone" role="group" aria-label="Пример экрана чата TenderScope: запрос, фильтры и карточка закупки">
+              <div class="phone-notch" aria-hidden="true"></div>
+              <div class="phone-screen">
+                <div class="phone-status" aria-hidden="true">
+                  <span>9:41</span>
+                  <span class="phone-status-icons"><i></i><i></i><i></i></span>
+                </div>
+                <div class="app-bar">
+                  <div class="app-brand">
+                    <img src="assets/logo.svg" width="24" height="24" alt="">
+                    <span>TenderScope</span>
+                  </div>
+                  <span class="app-bell" aria-hidden="true">
+                    <svg class="icon"><use href="#icon-bell"/></svg>
+                  </span>
+                </div>
+
+                <div class="chat">
+                  <div class="bubble bubble-ai">
+                    <span class="ai-avatar" aria-hidden="true"><svg class="icon"><use href="#icon-sparkles"/></svg></span>
+                    <p>Здравствуйте! Опишите, какие закупки ищете: что, где и на какую сумму.</p>
+                  </div>
+                  <div class="bubble bubble-user">
+                    <p>Ремонт зданий в Москве до 5 млн ₽</p>
+                  </div>
+                  <div class="bubble bubble-ai">
+                    <span class="ai-avatar" aria-hidden="true"><svg class="icon"><use href="#icon-sparkles"/></svg></span>
+                    <p>Готово. Собрал профиль поиска и буду присылать новые закупки.</p>
+                  </div>
+                  <div class="filter-chips" aria-label="Собранные фильтры">
+                    <span>Ремонт зданий</span>
+                    <span>Москва</span>
+                    <span>до 5 000 000 ₽</span>
+                  </div>
+
+                  <div class="mini-tender">
+                    <div class="mini-tender-top">
+                      <span class="mini-score">78<small>БАЛЛ</small></span>
+                      <div class="mini-tender-title">
+                        <strong>Ремонт помещений в административном здании</strong>
+                        <span>Москва · 44-ФЗ</span>
+                      </div>
+                    </div>
+                    <div class="mini-tender-bottom">
+                      <b>4 800 000 ₽</b>
+                      <span class="mini-deadline">До 18.11 · 6 дн</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="chat-input" aria-hidden="true">
+                  <span>Спросите про закупки…</span>
+                  <span class="send-btn"><svg class="icon"><use href="#icon-send"/></svg></span>
+                </div>
+              </div>
+            </div>
+            <figcaption class="demo-caption">Пример интерфейса · демо-данные</figcaption>
+          </figure>
+
+          <div class="float-card float-score" aria-hidden="true">
+            <span class="float-icon"><svg class="icon"><use href="#icon-sparkles"/></svg></span>
+            <div><b>AI-оценка</b><span>78 / 100 · стоит участвовать</span></div>
+          </div>
+          <div class="float-card float-push" aria-hidden="true">
+            <span class="float-icon float-icon-gold"><svg class="icon"><use href="#icon-bell"/></svg></span>
+            <div><b>Новая закупка</b><span>Подходит под ваш профиль</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PROBLEM -->
+    <section class="section" id="problem">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="dot"></span>Знакомая ситуация</p>
+          <h2>Тендерный отдел — дорого.<br>Ручной поиск — долго.</h2>
+          <p class="section-lead">Госзакупки — большой рынок, но заходить на него приходится через десятки фильтров, таблиц и документов. У небольших компаний на это нет отдельного человека.</p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="card problem-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-clock"/></svg></span>
+            <h3>Поиск отнимает время</h3>
+            <p>Каждый день нужно проверять новые извещения, подбирать ключевые слова, регионы и сумму. Пока вы разбираетесь с фильтрами, часть заявок уже собирают конкуренты.</p>
+          </article>
+          <article class="card problem-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-wallet"/></svg></span>
+            <h3>Специалист не по карману</h3>
+            <p>Тендерный отдел, подписки на агрегаторы и время руководителя — отдельная статья расходов. Для ИП и небольшого ООО это часто нерентабельно.</p>
+          </article>
+          <article class="card problem-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-doc"/></svg></span>
+            <h3>Сложно оценить закупку</h3>
+            <p>ТЗ на много страниц, требования к опыту, обеспечения и риски. Разбираться в этом каждый раз долго, а ошибка может стоить денег и времени.</p>
+          </article>
+          <article class="card problem-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-alert"/></svg></span>
+            <h3>Легко пропустить подходящее</h3>
+            <p>Нужные лоты появляются и закрываются между вашими проверками. Без автоматического мониторинга можно узнать о закупке, когда подача уже закончилась.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. HOW IT WORKS -->
+    <section class="section section-alt" id="how">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="dot"></span>Как это работает</p>
+          <h2>От фразы в чате до готовой заявки</h2>
+          <p class="section-lead">Четыре шага. Настраивать фильтры вручную и каждый день открывать zakupki.gov.ru не нужно.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step-num" aria-hidden="true">01</span>
+            <h3>Опишите запрос</h3>
+            <p>Напишите в чат, что ищете: «поставка мебели в Казани до 2 млн» или «клининг в Санкт-Петербурге». Без сложных форм и справочников.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num" aria-hidden="true">02</span>
+            <h3>AI собирает фильтры</h3>
+            <p>GPT превращает фразу в параметры поиска: ключевые слова, регион, закон, цену и стадию. Профиль можно изменить новым сообщением.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num" aria-hidden="true">03</span>
+            <h3>Мониторинг ЕИС</h3>
+            <p>Сервис проверяет zakupki.gov.ru по 44-ФЗ и 223-ФЗ и сопоставляет новые закупки с вашим профилем поиска.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num" aria-hidden="true">04</span>
+            <h3>Оценка и уведомления</h3>
+            <p>AI объясняет, что за закупка, какие есть риски и стоит ли готовить заявку. Интеграционные компоненты push присутствуют в коде, но фактическая доставка на устройстве не подтверждена.</p>
+          </li>
+        </ol>
+
+        <div class="how-note reveal">
+          <svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg>
+          <p>Решение всегда остаётся за вами. TenderScope помогает быстрее отсеять неподходящее, но не подаёт заявки и не гарантирует победу.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FEATURES -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="dot"></span>Возможности</p>
+          <h2>Всё, чтобы не искать вручную</h2>
+          <p class="section-lead">Поиск, оценка и документы — в одном приложении. Без тендерного отдела и таблиц в Excel.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="card feature-card feature-card-wide reveal">
+            <div class="feature-text">
+              <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-chat"/></svg></span>
+              <div class="feature-title-row">
+                <h3>Чат-поиск</h3>
+                <span class="tag">Free и Pro</span>
+              </div>
+              <p>Опишите задачу обычными словами. GPT соберёт фильтры и будет обновлять профиль по ходу диалога — без ручной настройки десятков полей.</p>
+              <ul class="tick-list">
+                <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Ключевые слова, регион, закон и цена</li>
+                <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>История диалога и понятное объяснение фильтров</li>
+              </ul>
+            </div>
+            <figure class="mockup-figure">
+              <div class="mock-tender" role="group" aria-label="Пример карточки закупки с AI-оценкой">
+                <div class="mt-top">
+                  <span class="mt-score">78<small>БАЛЛ</small></span>
+                  <div class="mt-title">
+                    <strong>Ремонт помещений в административном здании</strong>
+                    <span>Заказчик · Москва</span>
+                  </div>
+                </div>
+                <div class="mt-price">
+                  <b>4 800 000 ₽</b>
+                  <span class="mt-deadline">До 18.11 · 6 дн</span>
+                </div>
+                <div class="mt-tags"><span>44-ФЗ</span><span>Москва</span><span>Подача заявок</span></div>
+                <div class="mt-ai">
+                  <div class="mt-ai-head"><span>AI-оценка</span><b>78 / 100</b></div>
+                  <div class="bar" aria-hidden="true"><i style="width:78%"></i></div>
+                  <p>AI выделил маржинальность, конкуренцию и требования к опыту — сверьте вывод с документацией.</p>
+                </div>
+              </div>
+              <figcaption class="demo-caption">Пример карточки · демо-данные</figcaption>
+            </figure>
+          </article>
+
+          <article class="card feature-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-sparkles"/></svg></span>
+              <div class="feature-title-row">
+                <h3>AI-оценка</h3>
+                <span class="tag">Free и Pro</span>
+            </div>
+            <p>Быстрый разбор закупки: маржинальность, конкуренция и краткое объяснение. В Pro добавляется персональный прогноз под ваш профиль.</p>
+          </article>
+
+          <article class="card feature-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-doc"/></svg></span>
+            <div class="feature-title-row">
+              <h3>Глубокий анализ документов</h3>
+              <span class="tag tag-gold">Pro</span>
+            </div>
+            <p>Сервис скачивает документы закупки, извлекает текст и разбирает требования, условия и риски. Вместо чтения ТЗ целиком — короткая выжимка.</p>
+          </article>
+
+          <article class="card feature-card feature-card-customer reveal">
+            <div class="feature-text">
+              <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-chart"/></svg></span>
+              <div class="feature-title-row">
+                <h3>Аналитика заказчика</h3>
+                <span class="tag">Free и Pro</span>
+              </div>
+              <p>История контрактов по ИНН: суммы, среднее снижение цены, поставщики и надёжность. В Free доступна базовая карточка, в Pro — полный разбор.</p>
+            </div>
+            <figure class="mockup-figure mockup-figure-customer">
+              <div class="mock-customer" role="group" aria-label="Пример экрана аналитики заказчика">
+                <div class="mc-head">
+                  <span class="mc-avatar" aria-hidden="true"><svg class="icon"><use href="#icon-building"/></svg></span>
+                  <div class="mc-name">
+                    <strong>Департамент городского хозяйства</strong>
+                    <span>ИНН 7700000000 · Москва</span>
+                  </div>
+                  <span class="mc-reliability">Надёжность 82</span>
+                </div>
+                <div class="mc-verdict">
+                  <span>AI-вывод</span>
+                  <p>Демо-вывод по истории контрактов. Перед решением проверьте актуальные сведения в ЕИС.</p>
+                </div>
+                <div class="mc-grid">
+                  <div><span>Контрактов</span><b>42</b></div>
+                  <div><span>Снижение</span><b>8,4%</b></div>
+                  <div><span>Поставщиков</span><b>17</b></div>
+                </div>
+                <div class="mc-bars" aria-hidden="true">
+                  <span style="width:64%"></span>
+                  <span style="width:38%"></span>
+                  <span style="width:82%"></span>
+                </div>
+              </div>
+              <figcaption class="demo-caption">Пример аналитики · демо-данные</figcaption>
+            </figure>
+          </article>
+
+          <article class="card feature-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-bookmark"/></svg></span>
+            <div class="feature-title-row">
+              <h3>Сохранённые тендеры</h3>
+              <span class="tag">Free и Pro</span>
+            </div>
+            <p>Добавляйте закупки в закладки, чтобы вернуться к ним перед подачей. Всё важное — под рукой, без заметок и вкладок в браузере.</p>
+          </article>
+
+          <article class="card feature-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-bell"/></svg></span>
+              <div class="feature-title-row">
+                <h3>Push-уведомления</h3>
+                <span class="tag tag-gold">Статус проверки</span>
+            </div>
+            <p>Интеграционные компоненты push присутствуют в коде, но фактическая доставка на устройстве не подтверждена. До E2E-проверки не считаем уведомления доступной пользовательской функцией.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PRICING -->
+    <section class="section section-alt" id="pricing">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="dot"></span>Тарифы</p>
+          <h2>Начните бесплатно</h2>
+          <p class="section-lead">Free — чтобы попробовать. Pro — целевой тариф для регулярного поиска. Оплата пока не подключена: доступ открывается по заявке.</p>
+        </div>
+
+        <div class="plans">
+          <article class="card plan reveal">
+            <div class="plan-head">
+              <h3>Free</h3>
+              <p class="plan-price"><b>0 ₽</b><span>навсегда</span></p>
+              <p class="plan-desc">Понять, как работает поиск, и попробовать чат с AI.</p>
+            </div>
+            <ul class="plan-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>1 профиль поиска</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>5 сообщений в чат в день</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>История 7 дней</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>1 регион</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Универсальная AI-оценка</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Базовая карточка заказчика</li>
+            </ul>
+            <a class="btn btn-outline btn-block" href="#request">Начать бесплатно</a>
+          </article>
+
+          <article class="card plan plan-pro reveal">
+            <span class="plan-badge">Для регулярного поиска</span>
+            <div class="plan-head">
+              <h3>Pro</h3>
+              <p class="plan-price"><b>999 ₽</b><span>целевая цена / мес.</span></p>
+              <p class="plan-desc">Планируемая цена для регулярного поиска. Подписка и оплата будут подключены отдельно.</p>
+            </div>
+            <ul class="plan-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>10 профилей поиска</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Чат без ограничений</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>История 90 дней</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Все регионы</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Универсальная + персональная AI-оценка</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Полная аналитика заказчика</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>Глубокий анализ документов</li>
+            </ul>
+             <a class="btn btn-primary btn-block" href="#request">Запросить ранний доступ</a>
+          </article>
+        </div>
+
+        <div class="table-wrap reveal">
+          <table class="compare-table">
+            <caption class="visually-hidden">Сравнение тарифов Free и Pro</caption>
+            <thead>
+              <tr>
+                <th scope="col">Возможность</th>
+                <th scope="col">Free</th>
+                <th scope="col" class="th-pro">Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Цена</th><td>0 ₽</td><td class="td-pro">999 ₽ / мес</td></tr>
+              <tr><th scope="row">Профили поиска</th><td>1</td><td class="td-pro">10</td></tr>
+              <tr><th scope="row">Сообщения в чат</th><td>5 в день</td><td class="td-pro">Без ограничений</td></tr>
+              <tr><th scope="row">История</th><td>7 дней</td><td class="td-pro">90 дней</td></tr>
+              <tr><th scope="row">Регионы</th><td>1</td><td class="td-pro">Все</td></tr>
+              <tr><th scope="row">AI-оценка</th><td>Универсальная</td><td class="td-pro">+ персональная</td></tr>
+              <tr><th scope="row">Аналитика заказчика</th><td>Базовая</td><td class="td-pro">Полная</td></tr>
+              <tr><th scope="row">Глубокий анализ документов</th><td>—</td><td class="td-pro">Да</td></tr>
+              <tr><th scope="row">Push-уведомления</th><td>Интеграция есть; доставка не подтверждена</td><td class="td-pro">Интеграция есть; доставка не подтверждена</td></tr>
+              <tr><th scope="row">Сохранённые тендеры</th><td>Да</td><td class="td-pro">Да</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="pricing-note reveal">Цена Pro — целевая 999 ₽ в месяц. Онлайн-подписка и боевой платёж ещё не подтверждены: сейчас можно оставить заявку на ранний доступ. Заявка ни к чему не обязывает.</p>
+      </div>
+    </section>
+
+    <!-- 6. AUDIENCE -->
+    <section class="section" id="audience">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="dot"></span>Для кого</p>
+          <h2>Создан для небольших компаний</h2>
+          <p class="section-lead">TenderScope — не для крупного бизнеса с тендерным отделом. Он для тех, кто ищет и готовит заявки сам или небольшой командой.</p>
+        </div>
+
+        <div class="audience-grid">
+          <article class="card audience-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-user"/></svg></span>
+            <h3>ИП</h3>
+            <p>Сами ищете закупки и подаёте заявки. Нужен поиск, который не отнимает вечер и не требует разбираться в десятках фильтров.</p>
+            <p class="audience-example">«Поставка расходников в Нижнем Новгороде»</p>
+          </article>
+          <article class="card audience-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-building"/></svg></span>
+            <h3>Малое ООО</h3>
+            <p>Тендерного отдела нет, но есть люди, которые могут готовить заявки. Важно быстро находить подходящие закупки и не тратить время на лишние.</p>
+            <p class="audience-example">«Поставка офисной мебели по 223-ФЗ»</p>
+          </article>
+          <article class="card audience-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-briefcase"/></svg></span>
+            <h3>Поставщик услуг</h3>
+            <p>Клининг, охрана, обучение, IT-поддержка, питание. Регулярные закупки по 44-ФЗ и 223-ФЗ, где важны сроки и условия.</p>
+            <p class="audience-example">«Клининг помещений в Санкт-Петербурге»</p>
+          </article>
+          <article class="card audience-card reveal">
+            <span class="icon-box" aria-hidden="true"><svg class="icon"><use href="#icon-tools"/></svg></span>
+            <h3>Подрядчик</h3>
+            <p>Стройка, ремонт, монтаж и обслуживание. Нужно быстро оценивать объём работ, требования и риски в документации.</p>
+            <p class="audience-example">«Ремонт зданий в Москве до 5 млн ₽»</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. FAQ -->
+    <section class="section section-alt" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="dot"></span>FAQ</p>
+          <h2>Частые вопросы</h2>
+          <p class="section-lead">Коротко о данных, законности и бесплатном доступе.</p>
+        </div>
+
+        <div class="faq-list reveal">
+          <details class="faq-item">
+            <summary>
+              <span>Это законно?</span>
+              <svg class="icon faq-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Да. TenderScope работает с общедоступными данными ЕИС <a href="https://zakupki.gov.ru/" target="_blank" rel="noopener noreferrer">zakupki.gov.ru</a> по 44-ФЗ и 223-ФЗ. Мы не обходим защиту сайтов, не подаём заявки за вас и не заменяем официальные площадки. Участие в закупках регулируется законодательством РФ.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Откуда данные о закупках?</span>
+              <svg class="icon faq-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Из ЕИС zakupki.gov.ru: карточки закупок, документы и реестр контрактов. AI-оценка — наша интерпретация этих данных, а не официальное заключение заказчика или площадки.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Можно попробовать бесплатно?</span>
+              <svg class="icon faq-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Да, тариф Free не требует карты: 1 профиль поиска, 5 сообщений в чат в день, история 7 дней и 1 регион. Этого достаточно, чтобы описать запрос, получить фильтры и посмотреть, как работает лента.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Вы гарантируете победу в закупке?</span>
+              <svg class="icon faq-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Нет. TenderScope помогает быстрее находить закупки и оценивать риски, но решение об участии и подготовку заявки вы принимаете сами. Итог зависит от требований, конкуренции и вашего предложения.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Чем это отличается от ChatGPT?</span>
+              <svg class="icon faq-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>ChatGPT не мониторит ЕИС и не знает ваш профиль поиска. TenderScope связывает чат с базой закупок, оценкой и документами закупки — в одном сценарии. Интеграционные компоненты push есть в коде, но доставка на устройстве не подтверждена.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Что с персональными данными?</span>
+              <svg class="icon faq-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+            </summary>
+            <div class="faq-body">
+              <p>Контакты из формы используются только для связи по заявке и обрабатываются на основании согласия в соответствии с 152-ФЗ. Подробности — в <a href="privacy.html">политике обработки персональных данных</a>. Мы не продаём контакты и не используем их для рекламных рассылок без отдельного согласия.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FINAL CTA + FORM -->
+    <section class="section request-section" id="request">
+      <div class="container">
+        <div class="request-card reveal">
+          <div class="request-copy">
+            <p class="eyebrow"><span class="dot"></span>Ранний доступ</p>
+            <h2>Найдите первую закупку с TenderScope</h2>
+            <p>Оставьте контакты — напишем, когда откроем доступ, и поможем настроить первый профиль поиска. Или сразу напишите в Telegram.</p>
+
+            <div class="contact-list">
+              <a href="mailto:hello@tenderscope.ru">
+                <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#icon-mail"/></svg></span>
+                <span><b>hello@tenderscope.ru</b><small>Почта для вопросов и заявок</small></span>
+              </a>
+              <a href="https://t.me/tenderscope" target="_blank" rel="noopener noreferrer">
+                <span class="contact-icon" aria-hidden="true"><svg class="icon"><use href="#icon-telegram"/></svg></span>
+                <span><b>@tenderscope</b><small>Telegram — ответим быстрее</small></span>
+              </a>
+            </div>
+
+            <p class="request-note">
+              <svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg>
+              Без спама и звонков. Только ответ по вашей заявке.
+            </p>
+          </div>
+
+          <div class="form-panel">
+            <form class="lead-form" data-lead-form novalidate>
+              <div class="field">
+                <label for="lead-name">Как вас зовут</label>
+                <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Иван" required aria-describedby="lead-name-error">
+                <p class="field-error" id="lead-name-error" data-error-for="name" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="lead-contact">Email или Telegram</label>
+                <input id="lead-contact" name="contact" type="text" autocomplete="email" placeholder="you@example.ru или @username" required aria-describedby="lead-contact-error">
+                <p class="field-error" id="lead-contact-error" data-error-for="contact" hidden></p>
+              </div>
+
+              <div class="field field-consent">
+                <label class="checkbox" for="lead-consent">
+                  <input id="lead-consent" name="consent" type="checkbox" required aria-describedby="lead-consent-error">
+                  <span>Согласен на обработку персональных данных в соответствии с <a href="privacy.html" target="_blank" rel="noopener">политикой</a>.</span>
+                </label>
+                <p class="field-error" id="lead-consent-error" data-error-for="consent" hidden></p>
+              </div>
+
+              <button class="btn btn-primary btn-block" type="submit">
+                Отправить заявку
+                <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg>
+              </button>
+
+              <p class="form-note">Письмо откроется в вашем почтовом клиенте — останется нажать «Отправить».</p>
+            </form>
+
+            <div class="form-success" data-form-success role="status" aria-live="polite" hidden>
+              <span class="success-icon" aria-hidden="true"><svg class="icon"><use href="#icon-check"/></svg></span>
+              <h3>Заявка готова к отправке</h3>
+              <p>Мы открыли почтовый клиент с заполненным письмом на <b>hello@tenderscope.ru</b>. Отправьте его — и мы ответим на указанный контакт.</p>
+              <p class="success-sub">Если почтовый клиент не открылся, напишите нам напрямую:</p>
+              <div class="success-actions">
+                <a class="btn btn-primary" data-mailto-retry href="mailto:hello@tenderscope.ru">Открыть письмо ещё раз</a>
+                <a class="btn btn-ghost" href="https://t.me/tenderscope" target="_blank" rel="noopener noreferrer">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-telegram"/></svg>
+                  Написать в Telegram
+                </a>
+              </div>
+              <button class="link-btn" type="button" data-form-reset>Изменить данные</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="TenderScope — на главную">
+          <img src="assets/logo.svg" width="36" height="36" alt="">
+          <span class="brand-word">Tender<span>Scope</span></span>
+        </a>
+        <p>Умный поиск закупок для бизнеса. 44-ФЗ и 223-ФЗ, данные ЕИС zakupki.gov.ru.</p>
+        <a class="footer-tg" href="https://t.me/tenderscope" target="_blank" rel="noopener noreferrer">
+          <svg class="icon" aria-hidden="true"><use href="#icon-telegram"/></svg>
+          @tenderscope
+        </a>
+      </div>
+
+      <nav class="footer-col" aria-label="Продукт">
+        <h3>Продукт</h3>
+        <a href="#how">Как работает</a>
+        <a href="#features">Возможности</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#audience">Для кого</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="Документы">
+        <h3>Документы</h3>
+        <a href="privacy.html">Политика конфиденциальности</a>
+        <a href="terms.html">Условия использования</a>
+        <a href="mailto:hello@tenderscope.ru">hello@tenderscope.ru</a>
+      </nav>
+
+      <div class="footer-col">
+        <h3>Связь</h3>
+        <a href="https://t.me/tenderscope" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="mailto:hello@tenderscope.ru">Написать на почту</a>
+        <a href="#request">Оставить заявку</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© <span data-year>2026</span> TenderScope. Все права защищены.</p>
+      <p>Информация на сайте не является публичной офертой. Данные о закупках — из ЕИС zakupki.gov.ru.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

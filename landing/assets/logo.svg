@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="TenderScope">
+  <circle cx="85" cy="85" r="55" fill="none" stroke="#4F7CFF" stroke-width="8"/>
+  <path d="M128 128 170 170" fill="none" stroke="#4F7CFF" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="62" cy="67" r="3.2" fill="#7BA0FF"/>
+  <circle cx="105" cy="62" r="3.2" fill="#7BA0FF"/>
+  <circle cx="57" cy="101" r="3.2" fill="#7BA0FF"/>
+  <circle cx="114" cy="106" r="3.2" fill="#7BA0FF"/>
+  <circle cx="76" cy="116" r="3.2" fill="#7BA0FF"/>
+  <circle cx="95" cy="80" r="4.4" fill="#FFB547"/>
+  <path d="M60 90 80 108 115 68" fill="none" stroke="#FFB547" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

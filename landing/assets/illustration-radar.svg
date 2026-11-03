@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Радар поиска закупок">
+  <g fill="none" stroke="#4F7CFF" stroke-opacity="0.16">
+    <circle cx="300" cy="300" r="88"/>
+    <circle cx="300" cy="300" r="156"/>
+    <circle cx="300" cy="300" r="226"/>
+    <circle cx="300" cy="300" r="294" stroke-dasharray="4 10"/>
+  </g>
+  <g stroke="#4F7CFF" stroke-opacity="0.1">
+    <path d="M300 6v588M6 300h588"/>
+  </g>
+  <g fill="#7BA0FF" fill-opacity="0.7">
+    <circle cx="222" cy="232" r="4"/>
+    <circle cx="356" cy="206" r="3"/>
+    <circle cx="384" cy="330" r="4.5"/>
+    <circle cx="246" cy="378" r="3"/>
+    <circle cx="180" cy="312" r="2.5"/>
+    <circle cx="318" cy="140" r="2.5"/>
+  </g>
+  <g fill="#FFB547">
+    <circle cx="300" cy="300" r="5"/>
+    <circle cx="342" cy="258" r="4"/>
+  </g>
+  <circle cx="300" cy="300" r="11" fill="none" stroke="#FFB547" stroke-opacity="0.5"/>
+  <circle cx="300" cy="300" r="24" fill="none" stroke="#FFB547" stroke-opacity="0.22"/>
+</svg>

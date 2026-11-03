@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../../../landing/assets/favicon.svg" type="image/svg+xml">
+  <title>TenderScope: международное расширение</title>
+  <style>
+    :root { --bg:#0b1220; --card:#121d32; --text:#f2f6ff; --muted:#a9b7ce; --accent:#63d7c5; --warn:#ffc857; }
+    * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--text); font:clamp(16px,2vw,24px)/1.4 Arial,sans-serif; }
+    .deck { min-height:100vh } .slide { min-height:100vh; padding:7vh 9vw; display:none; flex-direction:column; justify-content:center; background:radial-gradient(circle at 85% 10%,#193451 0,transparent 35%),var(--bg); }
+    .slide.active { display:flex } h1 { font-size:clamp(38px,6vw,82px); line-height:1.05; margin:0 0 24px; max-width:1000px } h2 { font-size:clamp(30px,4vw,56px); margin:0 0 28px; color:var(--accent) } h3 { margin:10px 0; color:var(--warn) } p { max-width:1000px } ul { max-width:1050px; padding-left:1.2em } li { margin:.45em 0 } .kicker { color:var(--accent); letter-spacing:.08em; text-transform:uppercase; font-size:.75em } .note { color:var(--muted); font-size:.72em; margin-top:28px } .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; max-width:1100px } .box { background:var(--card); padding:20px; border-radius:16px; border:1px solid #263956 } table { border-collapse:collapse; max-width:1100px; width:100%; font-size:.75em } th,td { text-align:left; padding:12px; border-bottom:1px solid #31435e } th { color:var(--accent) } .footer { position:fixed; right:24px; bottom:18px; color:var(--muted); font-size:14px } a { color:var(--accent) } @media print { .slide,.slide.active { display:flex; page-break-after:always; min-height:100vh } .footer { display:none } }
+</style>
+<style>
+  :root { --bg:#1F1F1F; --card:#262626; --text:#F5F5F7; --muted:#9A9A9F; --accent:#4F7CFF; --warn:#FFB547; }
+  body { font-family: "Manrope", "Segoe UI", Arial, sans-serif; }
+  @media print {
+    @page { size: 16in 9in; margin: 0; }
+    html, body { height: auto; overflow: visible; background: var(--bg); }
+    .deck { min-height: 0; }
+    .slide, .slide.active { display: flex; width: 100vw; height: 56.25vw; min-height: 0; page-break-after: always; break-after: page; }
+    .slide:last-of-type { page-break-after: auto; break-after: auto; }
+    .footer { display: none; }
+  }
+</style>
+</head>
+<body>
+<main class="deck" aria-label="Презентация TenderScope">
+  <section class="slide active"><div class="kicker">Практическое занятие №13 · 03.11.2026</div><h1>TenderScope: план международного расширения</h1><p>Рекомендация: сначала проверить Казахстан — без заявления, что продукт уже доступен за рубежом.</p><p class="note">TenderScope сегодня работает с zakupki.gov.ru, 44-ФЗ и 223-ФЗ. Клиенты и продажи за пределами РФ не подтверждены.</p></section>
+  <section class="slide"><h2>1. Что выбираем</h2><table><tr><th>Рынок</th><th>Сильная сторона</th><th>Главный барьер</th></tr><tr><td>Казахстан</td><td>Единый портал + документация сервисов</td><td>Смена интерфейса, право доступа, KZT</td></tr><tr><td>ОАЭ</td><td>Зрелая федеральная digital-платформа</td><td>Федеральный/эмиратский уровни, Arabic/English</td></tr><tr><td>Узбекистан</td><td>Электронные процедуры</td><td>Несколько платформ и data-localization</td></tr></table><p class="note">Качественная оценка пригодности пилота, не размер рынка и не прогноз выручки.</p></section>
+  <section class="slide"><h2>2. Почему Казахстан</h2><div class="grid"><div class="box"><h3>Данные</h3><p>goszakup.gov.kz и официальная документация OWS V2 дают проверяемую точку старта.</p></div><div class="box"><h3>Аудитория</h3><p>Гипотеза: ИП и малым поставщикам нужны фильтры, дедлайны и объяснение документов.</p></div><div class="box"><h3>Барьер ниже</h3><p>Русский язык помогает discovery; казахский нужен до публичного запуска.</p></div></div><p class="note">Источники: goszakup.gov.kz/developer/ows_v2; Әділет, Закон №106-VIII. Доступ 03.11.2026.</p></section>
+  <section class="slide"><h2>3. Что не переносим автоматически</h2><ul><li>44-ФЗ/223-ФЗ → процедуры и статусы Казахстана.</li><li>ИНН → БИН/ИИН; рубли → KZT; регионы РФ → административные единицы РК.</li><li>Российские HTML-селекторы → отдельный коннектор GoszakupKz.</li><li>AI-скоринг не становится юридической консультацией и не обещает победу.</li></ul><p class="note">Сначала read-only и разрешённый канал данных; не обходить CAPTCHA, авторизацию, rate limits и условия платформы.</p></section>
+  <section class="slide"><h2>4. Продуктовая адаптация</h2><div class="grid"><div class="box"><h3>Общее ядро</h3><p>Профили, уведомления, документы, health-monitoring, AI-сводка с цитатой источника.</p></div><div class="box"><h3>Локальный слой</h3><p>Процедуры, классификаторы, обеспечения, ЭЦП, БИН/ИИН, KZT, даты и терминология.</p></div><div class="box"><h3>UX</h3><p>Русский discovery → русский/казахский beta; локальная зона Asia/Almaty.</p></div></div></section>
+  <section class="slide"><h2>5. Данные, privacy и оплата</h2><ul><li>Минимизировать пользовательские данные, разделить их и публичные сведения о закупках.</li><li>Составить карту потоков: storage, email, push, AI, analytics; проверить трансграничную передачу по праву РК.</li><li>Не принимать оплату до KYC/sanctions, налоговой и платёжной проверки.</li><li>Гипотеза оплаты: подписка в KZT через допустимый локальный эквайринг; конкретный провайдер не выбран.</li></ul><p class="note">Источник: Закон РК «О персональных данных и их защите», Әділет. Доступ 03.11.2026.</p></section>
+  <section class="slide"><h2>6. План 0–12 месяцев</h2><div class="grid"><div class="box"><h3>0–3</h3><p>15–20 интервью; 30–50 объявлений вручную; legal/data gate; прототип.</p></div><div class="box"><h3>3–6</h3><p>3–5 добровольных компаний; один разрешённый коннектор; закрытый read-only пилот.</p></div><div class="box"><h3>6–12</h3><p>Только при успехе: local payments, support, казахский UI и beta.</p></div></div></section>
+  <section class="slide"><h2>7. Партнёрства без выдуманных договорённостей</h2><ul><li>Кандидаты на интервью: ИП и малые поставщики из разных отраслей.</li><li>Возможный локальный консультант: терминология и правовая проверка — не выбран, не обещан.</li><li>Возможный официальный канал данных: только после подтверждения условий доступа.</li><li>Никаких заявленных клиентов, партнёров, продаж или регистрации компании.</li></ul></section>
+  <section class="slide"><h2>8. Риски и стоп-критерии</h2><div class="grid"><div class="box"><h3>Риски</h3><p>Смена портала, неполные данные, privacy, санкции/провайдеры, слабый спрос, ошибки AI.</p></div><div class="box"><h3>Стоп</h3><p>Нет легального доступа; точность ниже порога; никто не тестирует; платежи или data-flow не проходят review.</p></div><div class="box"><h3>Запуск</h3><p>12/20 интервью подтверждают проблему, 5 тестировщиков, 95% ключевых полей на контрольной выборке.</p></div></div></section>
+  <section class="slide"><h2>9. Что проверить интервью</h2><ul><li>Сколько времени уходит на поиск и какие источники обязательны?</li><li>Что важнее: дедлайн, обеспечение, квалификация, документы или история заказчика?</li><li>Какой уровень шума допустим и что считается «релевантным» уведомлением?</li><li>Русский/казахский, допустимость внешнего AI, KZT-оплата и формат счёта?</li><li>Нужен мониторинг или подача заявки/ЭЦП? Первый пилот — только мониторинг.</li></ul><p class="note">Полные ссылки, допущения и критерии — в README.md, 01-market-comparison.md, 02-product-adaptation.md и 03-entry-strategy.md.</p></section>
+</main>
+<div class="footer" id="counter">1 / 9 · ← → / Space · Home / End · печать: Ctrl/Cmd+P</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')]; let current=0;
+  function show(n){current=Math.max(0,Math.min(slides.length-1,n)); slides.forEach((s,i)=>s.classList.toggle('active',i===current)); document.getElementById('counter').textContent=`${current+1} / ${slides.length} · ← → / Space · Home / End · печать: Ctrl/Cmd+P`;}
+  document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(current+1)} if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(current-1)} if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1)});
+</script>
+</body>
+</html>

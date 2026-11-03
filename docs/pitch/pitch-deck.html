@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../landing/assets/favicon.svg" type="image/svg+xml">
+<title>TenderScope — питч-дек</title>
+<style>
+  :root{
+    --bg:#1F1F1F;
+    --surface:#262626;
+    --surface2:#2E2E2E;
+    --border:#333333;
+    --border-soft:#2A2A2A;
+    --ink:#F5F5F7;
+    --dim:#A7A7AD;
+    --mute:#6F6F74;
+    --blue:#4F7CFF;
+    --blue2:#7BA0FF;
+    --gold:#FFB547;
+    --green:#3CCB7F;
+    --red:#FF6B6B;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#141414;
+    color:var(--ink);
+    font-family:"Manrope","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    font-variant-numeric:tabular-nums;
+    overflow:hidden;
+  }
+
+  .deck{
+    width:100vw;
+    height:100vh;
+    display:grid;
+    place-items:center;
+    padding:20px 20px 70px;
+  }
+
+  .slide{
+    width:min(calc(100vw - 40px), calc((100vh - 90px) * 16 / 9));
+    aspect-ratio:16 / 9;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:clamp(20px, 3.4vmin, 48px);
+    font-size:clamp(9px, 1.55vmin, 17px);
+    display:none;
+    flex-direction:column;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
+  }
+  .slide.is-active{display:flex;animation:fade .22s ease;}
+  @keyframes fade{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .slide::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(60% 60% at 100% 0%, rgba(79,124,255,.17), transparent 70%),
+      radial-gradient(42% 42% at 0% 100%, rgba(255,181,71,.09), transparent 70%);
+  }
+  .slide::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:.4;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:5em 5em;
+    -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,.55), transparent 78%);
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.55), transparent 78%);
+  }
+  .slide > *{position:relative;z-index:1;}
+
+  h1,h2,h3,p{margin:0;}
+  h1{
+    font-size:3.3em;
+    line-height:1.02;
+    letter-spacing:-.04em;
+    font-weight:800;
+  }
+  h2{
+    font-size:2.1em;
+    line-height:1.08;
+    letter-spacing:-.03em;
+    font-weight:800;
+    max-width:19em;
+  }
+  h3{font-size:1.02em;line-height:1.22;font-weight:750;}
+  p{line-height:1.45;}
+  .lead{
+    font-size:1.08em;
+    color:#C9C9CF;
+    max-width:34em;
+    line-height:1.45;
+  }
+  .accent{color:var(--blue2);}
+  .gold{color:var(--gold);}
+  .dim{color:var(--dim);}
+  .mute{color:var(--mute);}
+
+  .hyp{
+    display:inline-block;
+    margin-left:.35em;
+    padding:.12em .5em;
+    border-radius:999px;
+    border:1px solid rgba(255,181,71,.35);
+    background:rgba(255,181,71,.08);
+    color:var(--gold);
+    font-size:.62em;
+    font-weight:650;
+    letter-spacing:.03em;
+    vertical-align:.18em;
+    white-space:nowrap;
+  }
+  .fact{
+    display:inline-block;
+    align-self:flex-start;
+    padding:.18em .65em;
+    border-radius:999px;
+    border:1px solid rgba(60,203,127,.3);
+    background:rgba(60,203,127,.09);
+    color:var(--green);
+    font-size:.66em;
+    font-weight:650;
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+
+  .slide-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1em;
+    font-size:.7em;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--mute);
+    flex:0 0 auto;
+  }
+  .kicker{color:var(--gold);font-weight:700;}
+  .page{font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+  .slide-body{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:1.1em;
+    padding:.6em 0;
+  }
+
+  .footnote{
+    font-size:.68em;
+    line-height:1.4;
+    color:var(--mute);
+    max-width:60em;
+  }
+
+  /* ---------- title ---------- */
+  .title-top{display:flex;align-items:center;gap:.75em;flex:0 0 auto;}
+  .brandmark{
+    width:2.4em;height:2.4em;border-radius:50%;
+    border:.13em solid var(--blue);
+    display:grid;place-items:center;
+    position:relative;
+    flex:0 0 auto;
+    box-shadow:0 0 1.6em rgba(79,124,255,.28), inset 0 0 1.2em rgba(79,124,255,.14);
+  }
+  .brandmark::before{
+    content:"";width:.5em;height:.5em;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 1.1em rgba(255,181,71,.85);
+  }
+  .brandmark::after{
+    content:"";position:absolute;inset:.42em;border-radius:50%;
+    border:1px dashed rgba(123,160,255,.5);
+  }
+  .wordmark{font-weight:800;letter-spacing:-.035em;font-size:1.3em;}
+  .title-main{
+    margin-top:auto;margin-bottom:auto;
+    display:flex;flex-direction:column;gap:1em;
+    max-width:46em;
+    padding:1em 0;
+  }
+  .title-main h1{max-width:13em;}
+  .title-foot{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:1em;
+    font-size:.82em;color:var(--dim);
+    border-top:1px solid var(--border);
+    padding-top:.9em;
+    flex:0 0 auto;
+  }
+  .tag{
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:.4em .9em;
+    color:var(--gold);
+    font-size:.9em;
+    white-space:nowrap;
+  }
+  .title-orbit{
+    position:absolute;
+    right:1.4em;
+    top:50%;
+    width:19em;
+    height:19em;
+    transform:translateY(-50%);
+    z-index:0;
+    pointer-events:none;
+    opacity:.85;
+  }
+  .title-orbit i{
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(79,124,255,.16);
+    border-radius:50%;
+  }
+  .title-orbit i:nth-child(2){inset:2.6em;border-color:rgba(79,124,255,.26);}
+  .title-orbit i:nth-child(3){inset:5.4em;border-color:rgba(255,181,71,.24);}
+  .title-orbit::before{
+    content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
+    background:linear-gradient(transparent, rgba(79,124,255,.30), transparent);
+  }
+  .title-orbit::after{
+    content:"";position:absolute;top:50%;left:0;right:0;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(79,124,255,.30), transparent);
+  }
+  .title-orbit span{
+    position:absolute;left:50%;top:50%;
+    width:.5em;height:.5em;border-radius:50%;
+    background:var(--gold);
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 1.6em rgba(255,181,71,.85);
+  }
+
+  /* ---------- cards ---------- */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1em;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1em;}
+  .card{
+    background:linear-gradient(180deg, rgba(46,46,46,.92), rgba(38,38,38,.92));
+    border:1px solid var(--border);
+    border-radius:1em;
+    padding:1.15em 1.2em;
+    display:flex;flex-direction:column;gap:.55em;
+    min-width:0;
+  }
+  .card p{font-size:.88em;color:var(--dim);}
+  .card h3{font-size:1.02em;color:var(--ink);}
+  .stat{font-size:2.45em;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--ink);}
+  .stat.small{font-size:1.8em;}
+  .num{
+    font-size:.72em;font-weight:800;letter-spacing:.12em;color:var(--blue2);
+  }
+  .divider{height:1px;background:var(--border);margin:.1em 0;}
+
+  /* ---------- product ---------- */
+  .product{
+    display:grid;
+    grid-template-columns:1.18fr .82fr;
+    gap:2em;
+    align-items:center;
+    min-height:0;
+  }
+  .steps{display:flex;flex-direction:column;gap:.55em;}
+  .step{
+    display:grid;
+    grid-template-columns:1.9em 1fr;
+    gap:.7em;
+    align-items:start;
+    padding:.55em .8em;
+    border-left:2px solid var(--border);
+    border-radius:0 .5em .5em 0;
+  }
+  .step.active{border-left-color:var(--blue);background:rgba(79,124,255,.07);}
+  .step-num{font-weight:800;color:var(--blue2);font-size:.9em;line-height:1.35;}
+  .step h3{font-size:.95em;}
+  .step p{font-size:.78em;color:var(--dim);margin-top:.15em;line-height:1.35;}
+
+  .phone{
+    width:min(100%,17.5em);
+    aspect-ratio:9 / 17.2;
+    margin:0 auto;
+    background:#171717;
+    border:1px solid #3b3b3b;
+    border-radius:2em;
+    padding:1em .9em;
+    display:flex;flex-direction:column;gap:.65em;
+    box-shadow:0 1.5em 3em rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.02);
+    overflow:hidden;
+  }
+  .phone-top{height:.3em;width:34%;background:#3b3b3b;border-radius:999px;margin:0 auto .15em;flex:0 0 auto;}
+  .bubble{
+    align-self:flex-end;
+    max-width:88%;
+    background:rgba(79,124,255,.17);
+    border:1px solid rgba(79,124,255,.35);
+    border-radius:.9em .9em .2em .9em;
+    padding:.65em .7em;
+    font-size:.68em;
+    line-height:1.35;
+    color:#E7EBFF;
+  }
+  .tender-mock{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:.8em;
+    padding:.7em;
+    font-size:.64em;
+    display:flex;flex-direction:column;gap:.45em;
+  }
+  .mock-top{display:flex;align-items:center;justify-content:space-between;gap:.5em;}
+  .mock-score{font-size:1.45em;font-weight:800;color:var(--green);line-height:1;}
+  .chip{
+    display:inline-block;
+    padding:.22em .55em;
+    border-radius:999px;
+    font-size:.82em;
+    background:rgba(60,203,127,.14);
+    color:var(--green);
+    border:1px solid rgba(60,203,127,.3);
+    white-space:nowrap;
+  }
+  .chip.blue{background:rgba(79,124,255,.14);color:var(--blue2);border-color:rgba(79,124,255,.32);}
+  .line{height:.42em;border-radius:999px;background:#3a3a3a;}
+  .w85{width:85%}.w70{width:70%}.w55{width:55%}.w40{width:40%}
+  .phone-note{margin-top:auto;font-size:.58em;color:var(--mute);text-align:center;line-height:1.35;}
+
+  /* ---------- market ---------- */
+  .funnel{display:flex;flex-direction:column;gap:.65em;}
+  .funnel-row{
+    display:grid;
+    grid-template-columns:6.4em 1fr 10.4em;
+    gap:1em;
+    align-items:center;
+  }
+  .funnel-label{font-weight:800;color:var(--blue2);font-size:.88em;letter-spacing:.02em;}
+  .bar-track{
+    height:2.1em;
+    background:#232323;
+    border:1px solid var(--border);
+    border-radius:.45em;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:.4em;
+    background:linear-gradient(90deg, var(--blue), var(--blue2));
+  }
+  .bar-fill.gold{background:linear-gradient(90deg, #D8922F, var(--gold));}
+  .funnel-value{text-align:right;font-weight:800;font-size:1.02em;white-space:nowrap;}
+  .funnel-value span{display:block;font-size:.55em;color:var(--mute);font-weight:600;margin-top:.15em;}
+  .assumptions{display:grid;grid-template-columns:1fr 1fr;gap:.45em 1.4em;}
+  .assumption{font-size:.72em;color:var(--dim);line-height:1.35;display:grid;grid-template-columns:1.8em 1fr;gap:.35em;}
+  .assumption b{color:var(--gold);font-size:.95em;}
+
+  /* ---------- matrix ---------- */
+  .matrix-wrap{display:grid;grid-template-columns:1.22fr .78fr;gap:1.5em;align-items:center;min-height:0;}
+  .matrix{
+    position:relative;
+    aspect-ratio:1.35 / 1;
+    background:
+      linear-gradient(90deg, rgba(79,124,255,.07), transparent 45%, rgba(255,181,71,.06)),
+      #202020;
+    border:1px solid var(--border);
+    border-radius:1em;
+    margin:2.2em 0 .4em 2.8em;
+  }
+  .matrix::before{
+    content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border);
+  }
+  .matrix::after{
+    content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border);
+  }
+  .axis-x{
+    position:absolute;left:50%;bottom:-1.9em;transform:translateX(-50%);
+    font-size:.62em;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap;
+  }
+  .axis-y{
+    position:absolute;left:-2.6em;top:50%;transform:rotate(-90deg) translateX(50%);
+    transform-origin:left center;
+    font-size:.62em;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);white-space:nowrap;
+  }
+  .quad{
+    position:absolute;font-size:.56em;letter-spacing:.06em;text-transform:uppercase;color:#5C5C62;line-height:1.3;
+  }
+  .q-tl{left:.8em;top:.7em;}
+  .q-tr{right:.8em;top:.7em;text-align:right;}
+  .q-bl{left:.8em;bottom:.7em;}
+  .q-br{right:.8em;bottom:.7em;text-align:right;}
+  .dot{position:absolute;width:.68em;height:.68em;border-radius:50%;transform:translate(-50%,50%);}
+  .dot i{display:block;width:100%;height:100%;border-radius:50%;background:#8A8A91;border:1px solid #B8B8BE;}
+  .dot span{
+    position:absolute;left:1.15em;top:50%;transform:translateY(-50%);
+    font-size:.68em;color:var(--dim);white-space:nowrap;
+  }
+  .dot.right span{left:auto;right:1.15em;text-align:right;}
+  .dot.main i{
+    background:var(--blue);
+    border-color:var(--blue2);
+    box-shadow:0 0 0 .25em rgba(79,124,255,.16), 0 0 1.3em rgba(79,124,255,.7);
+  }
+  .dot.main span{color:var(--ink);font-weight:800;}
+  .dot.main::after{
+    content:"";position:absolute;inset:-.45em;border-radius:50%;border:1px solid rgba(255,181,71,.45);
+  }
+  .honest{
+    border:1px solid rgba(255,181,71,.24);
+    background:rgba(255,181,71,.05);
+    border-radius:.9em;
+    padding:.95em 1em;
+    display:flex;flex-direction:column;gap:.45em;
+  }
+  .honest h3{font-size:.8em;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;}
+  .honest p{font-size:.76em;color:var(--dim);line-height:1.4;}
+  .honest p b{color:var(--ink);font-weight:700;}
+
+  /* ---------- business model ---------- */
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:.9em;}
+  .plan{
+    border:1px solid var(--border);
+    background:rgba(38,38,38,.88);
+    border-radius:1em;
+    padding:1em 1.15em;
+    display:flex;flex-direction:column;gap:.4em;
+  }
+  .plan.pro{
+    border-color:rgba(79,124,255,.55);
+    background:linear-gradient(180deg, rgba(79,124,255,.13), rgba(38,38,38,.9));
+    box-shadow:0 0 2.5em rgba(79,124,255,.12);
+  }
+  .plan-head{display:flex;align-items:center;justify-content:space-between;gap:.6em;}
+  .plan-name{font-size:.74em;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:700;}
+  .plan.pro .plan-name{color:var(--blue2);}
+  .plan-price{font-size:1.85em;font-weight:800;letter-spacing:-.04em;line-height:1;}
+  .plan-price small{font-size:.38em;color:var(--dim);font-weight:600;letter-spacing:0;}
+  .plan ul{
+    margin:.45em 0 0;padding-left:1.05em;
+    color:var(--dim);font-size:.79em;line-height:1.5;
+  }
+  .plan li::marker{color:var(--blue2);}
+  .metrics{display:grid;grid-template-columns:repeat(6,1fr);gap:.55em;}
+  .metric{
+    background:rgba(38,38,38,.85);
+    border:1px solid var(--border-soft);
+    border-radius:.7em;
+    padding:.55em .4em;
+    text-align:center;
+    min-width:0;
+  }
+  .metric b{display:block;font-size:1.08em;letter-spacing:-.02em;line-height:1.2;}
+  .metric span{display:block;font-size:.6em;color:var(--mute);line-height:1.3;margin-top:.2em;}
+
+  /* ---------- traction ---------- */
+  .traction{display:grid;grid-template-columns:1fr 1fr;gap:1em;min-height:0;}
+  .tcol{
+    border:1px solid var(--border);
+    border-radius:.9em;
+    padding:.85em 1em;
+    background:rgba(38,38,38,.75);
+  }
+  .tcol h3{font-size:.68em;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.45em;}
+  .tcol.yes h3{color:var(--green);}
+  .tcol.no h3{color:var(--gold);}
+  .tcol ul{list-style:none;padding:0;margin:0;display:grid;gap:.3em;}
+  .tcol li{
+    font-size:.73em;color:var(--dim);line-height:1.32;
+    display:grid;grid-template-columns:1.15em 1fr;gap:.35em;
+  }
+  .tcol.yes li::before{content:"✓";color:var(--green);font-weight:800;}
+  .tcol.no li::before{content:"—";color:var(--mute);font-weight:800;}
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:.65em;margin-top:.15em;}
+  .phase{
+    border-top:2px solid var(--border);
+    padding-top:.5em;
+  }
+  .phase:nth-child(1){border-top-color:var(--blue);}
+  .phase:nth-child(2){border-top-color:var(--blue2);}
+  .phase:nth-child(3){border-top-color:var(--gold);}
+  .phase b{display:block;font-size:.61em;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:.2em;}
+  .phase p{font-size:.71em;color:var(--dim);line-height:1.35;}
+
+  /* ---------- team ---------- */
+  .team{display:grid;grid-template-columns:repeat(4,1fr);gap:.75em;}
+  .person{
+    border:1px solid var(--border);
+    background:rgba(38,38,38,.8);
+    border-radius:.9em;
+    padding:1em .9em;
+    display:flex;flex-direction:column;gap:.35em;
+    min-width:0;
+  }
+  .avatar{
+    width:2.8em;height:2.8em;border-radius:50%;
+    border:1px dashed rgba(79,124,255,.55);
+    background:rgba(79,124,255,.1);
+    display:grid;place-items:center;
+    color:var(--blue2);font-weight:800;font-size:.82em;
+    margin-bottom:.4em;
+  }
+  .person h3{font-size:.88em;}
+  .person .role{font-size:.66em;color:var(--gold);letter-spacing:.05em;text-transform:uppercase;line-height:1.25;}
+  .person p{font-size:.71em;color:var(--dim);line-height:1.35;}
+  .placeholder{
+    display:block;margin-top:auto;padding-top:.45em;
+    border-top:1px dashed var(--border);
+    font-size:.65em;color:var(--mute);line-height:1.3;
+  }
+  .team-note{
+    font-size:.72em;color:var(--mute);line-height:1.4;
+    border-left:2px solid rgba(255,181,71,.5);
+    padding-left:.8em;max-width:52em;
+  }
+
+  /* ---------- ask ---------- */
+  .ask{display:grid;grid-template-columns:.86fr 1.14fr;gap:1.7em;align-items:center;min-height:0;}
+  .ask-left{display:flex;flex-direction:column;gap:.55em;}
+  .ask-sum{font-size:3.9em;font-weight:800;letter-spacing:-.055em;line-height:.94;}
+  .ask-sum small{display:block;font-size:.25em;color:var(--dim);font-weight:600;letter-spacing:0;margin-top:.5em;line-height:1.3;}
+  .ask-left p{font-size:.82em;color:var(--dim);line-height:1.45;}
+  .budget{display:flex;flex-direction:column;gap:.5em;}
+  .budget-row{
+    display:grid;
+    grid-template-columns:10.2em 1fr 5.4em;
+    gap:.65em;align-items:center;
+    font-size:.7em;
+  }
+  .budget-name{color:var(--dim);line-height:1.25;}
+  .budget-bar{height:.62em;background:#232323;border-radius:999px;overflow:hidden;border:1px solid #2E2E2E;}
+  .budget-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--blue2));}
+  .budget-bar i.gold{background:linear-gradient(90deg,#D8922F,var(--gold));}
+  .budget-val{text-align:right;font-weight:750;color:var(--ink);white-space:nowrap;}
+  .result{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:.55em;
+    margin-top:.35em;
+  }
+  .result div{
+    background:rgba(79,124,255,.08);
+    border:1px solid rgba(79,124,255,.22);
+    border-radius:.65em;
+    padding:.5em .6em;
+  }
+  .result b{display:block;font-size:1.05em;line-height:1.2;}
+  .result span{display:block;font-size:.6em;color:var(--mute);line-height:1.3;margin-top:.15em;}
+  .contact{
+    font-size:.72em;color:var(--dim);
+    border-top:1px solid var(--border);
+    padding-top:.6em;
+  }
+
+  /* ---------- HUD ---------- */
+  .hud{
+    position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
+    display:flex;align-items:center;gap:8px;
+    background:rgba(31,31,31,.9);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:6px 8px;
+    z-index:20;
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+  }
+  .hud button{
+    width:40px;height:34px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#262626;
+    color:var(--ink);
+    font-size:16px;line-height:1;
+    cursor:pointer;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .hud button:hover:not(:disabled){border-color:var(--blue);color:var(--blue2);background:#2C2C2C;}
+  .hud button:focus-visible{outline:2px solid var(--blue2);outline-offset:2px;}
+  .hud button:disabled{opacity:.32;cursor:default;}
+  .counter{
+    min-width:56px;text-align:center;
+    font-size:11px;letter-spacing:.12em;color:var(--mute);
+  }
+  .counter b{color:var(--ink);font-weight:750;}
+  .progress{
+    position:fixed;left:0;bottom:0;height:2px;width:100%;
+    background:#232323;z-index:21;
+  }
+  .progress i{
+    display:block;height:100%;width:10%;
+    background:linear-gradient(90deg,var(--blue),var(--gold));
+    transition:width .18s ease;
+  }
+  .hint{
+    position:fixed;right:18px;bottom:22px;
+    font-size:10.5px;color:var(--mute);letter-spacing:.04em;z-index:20;
+  }
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+
+  @media (max-width:900px){
+    .hint{display:none;}
+    .title-orbit{display:none;}
+    .product{grid-template-columns:1fr;}
+    .phone{display:none;}
+    .matrix-wrap{grid-template-columns:1fr;}
+    .honest{display:none;}
+    .ask{grid-template-columns:1fr;}
+    .metrics{grid-template-columns:repeat(3,1fr);}
+    .team{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---------- print: one 16:9 slide per landscape page ---------- */
+  @media print{
+    @page{size:16in 9in;margin:0;}
+
+    html,body{
+      width:auto;height:auto;
+      overflow:visible;
+      background:#fff;
+    }
+    body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
+    .deck{
+      display:block;
+      width:auto;height:auto;
+      padding:0;
+    }
+    .slide{
+      display:flex !important;
+      width:100vw;
+      height:56.25vw;
+      aspect-ratio:auto;
+      border:0;
+      border-radius:0;
+      padding:14mm 18mm;
+      font-size:10.5pt;
+      box-shadow:none;
+      overflow:hidden;
+      page-break-after:always;
+      break-after:page;
+      page-break-inside:avoid;
+      break-inside:avoid;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+    .slide:last-of-type{page-break-after:auto;break-after:auto;}
+    .slide.is-active{animation:none;}
+    .hud,.hint,.progress{display:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<main class="deck" id="deck" aria-label="Презентация TenderScope">
+
+  <!-- 01 -->
+  <section class="slide slide-title is-active" data-slide="1" aria-hidden="false">
+    <div class="title-orbit" aria-hidden="true"><i></i><i></i><i></i><span></span></div>
+    <div class="title-top">
+      <div class="brandmark" aria-hidden="true"></div>
+      <span class="wordmark">TenderScope</span>
+    </div>
+    <div class="title-main">
+      <p class="kicker">Питч-дек · ноябрь 2026</p>
+      <h1>Тендеры находит AI.<br><span class="accent">Вы решаете, где заработать.</span></h1>
+      <p class="lead">Умный поиск закупок для бизнеса: опишите словами, что ищете, — получите тендеры и ответ, стоит ли участвовать.</p>
+    </div>
+    <div class="title-foot">
+      <div><span class="mute">Контакт</span><br>[Имя] · [Telegram] · [email]</div>
+      <div class="tag">44-ФЗ · 223-ФЗ</div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="slide" data-slide="2" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">02 · Проблема</span><span class="page">02 / 10</span></div>
+    <div class="slide-body">
+      <h2>Малому бизнесу нужен тендерный отдел.<br><span class="accent">Но он не может его себе позволить.</span></h2>
+      <p class="lead">ИП и малые ООО ищут закупки вручную, читают десятки документов и узнают о проблемах уже после подачи заявки.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat">2–3 ч</div>
+          <p>в день на ручной поиск, чтение извещений и документов<span class="hyp">гипотеза</span></p>
+        </div>
+        <div class="card">
+          <div class="stat">150k+ ₽</div>
+          <p>в месяц стоит минимальный тендерный специалист или отдел<span class="hyp">гипотеза</span></p>
+        </div>
+        <div class="card">
+          <div class="stat">1 из 5</div>
+          <p>закупок малый бизнес пропускает из-за объёма, сроков и нехватки людей<span class="hyp">гипотеза</span></p>
+        </div>
+      </div>
+      <p class="footnote">Цифры боли — рабочие гипотезы. Проверяем на 20–30 интервью с ИП и малыми ООО до защиты.</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="slide" data-slide="3" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">03 · Решение</span><span class="page">03 / 10</span></div>
+    <div class="slide-body">
+      <h2>Опишите закупку словами.<br><span class="accent">Получите не список, а решение.</span></h2>
+      <p class="lead">TenderScope — AI-сервис, который превращает описание задачи в фильтры, мониторит zakupki.gov.ru и объясняет, стоит ли участвовать.</p>
+      <div class="grid-3">
+        <div class="card">
+          <span class="num">01</span>
+          <h3>Понимает язык</h3>
+          <p>«Ремонт школ в Москве до 5 млн» → готовый профиль поиска. Без конструктора фильтров.</p>
+        </div>
+        <div class="card">
+          <span class="num">02</span>
+          <h3>Читает документы</h3>
+          <p>AI разбирает ТЗ, риски и требования, а не только заголовок карточки.</p>
+        </div>
+        <div class="card">
+          <span class="num">03</span>
+          <h3>Стоит 999 ₽</h3>
+          <p>Вместо тендерного отдела — подписка для одного предпринимателя.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="slide" data-slide="4" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">04 · Продукт</span><span class="page">04 / 10</span></div>
+    <div class="slide-body">
+      <h2>От фразы до решения — четыре шага.</h2>
+      <div class="product">
+        <div class="steps">
+          <div class="step active">
+            <span class="step-num">01</span>
+            <div><h3>Опишите словами</h3><p>«Ищу ремонт школ в Москве до 5 млн ₽».</p></div>
+          </div>
+          <div class="step">
+            <span class="step-num">02</span>
+            <div><h3>AI собирает фильтры</h3><p>Регион, цена, ключевые слова, стадия закупки, закон.</p></div>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <div><h3>Сервис отслеживает ЕИС</h3><p>Новые закупки по 44-ФЗ и 223-ФЗ попадают в ленту; компоненты push есть в коде, но E2E-доставка на устройстве ещё не подтверждена.</p></div>
+          </div>
+          <div class="step">
+            <span class="step-num">04</span>
+            <div><h3>AI даёт вердикт</h3><p>«Участвовать / проверить / пропустить», оценка, риски, требования.</p></div>
+          </div>
+          <span class="fact">MVP собран end-to-end · проверен на живых данных</span>
+        </div>
+        <div class="phone" aria-label="Мокап экрана приложения">
+          <div class="phone-top"></div>
+          <div class="bubble">Ищу ремонт школ в Москве до 5 млн ₽</div>
+          <div class="tender-mock">
+            <div class="mock-top">
+              <span class="chip blue">Ремонт · Москва</span>
+              <span class="mock-score">78</span>
+            </div>
+            <div class="line w85"></div>
+            <div class="line w70"></div>
+            <div class="line w55"></div>
+            <div class="mock-top">
+              <span class="chip">Участвовать</span>
+              <span class="mute">риски: 1</span>
+            </div>
+          </div>
+          <div class="tender-mock">
+            <div class="line w70"></div>
+            <div class="line w85"></div>
+            <div class="line w40"></div>
+          </div>
+          <div class="phone-note">Мокап интерфейса · демо на защите</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="slide" data-slide="5" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">05 · Рынок</span><span class="page">05 / 10</span></div>
+    <div class="slide-body">
+      <h2>Рынок считаем снизу вверх.<br><span class="accent">Это гипотеза, не факт.</span></h2>
+      <div class="funnel">
+        <div class="funnel-row">
+          <span class="funnel-label">TAM</span>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="funnel-value">≈ 7,2 млрд ₽/год<span>600 000 × 999 ₽ × 12</span></div>
+        </div>
+        <div class="funnel-row">
+          <span class="funnel-label">SAM</span>
+          <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+          <div class="funnel-value">≈ 0,86 млрд ₽/год<span>600 000 × 60% × 20% × 999 ₽ × 12</span></div>
+        </div>
+        <div class="funnel-row">
+          <span class="funnel-label">SOM · 3 года</span>
+          <div class="bar-track"><div class="bar-fill gold" style="width:12%"></div></div>
+          <div class="funnel-value">≈ 24 млн ₽/год<span>2 000 × 999 ₽ × 12 · ≈2,8% SAM</span></div>
+        </div>
+      </div>
+      <div class="assumptions">
+        <div class="assumption"><b>A1</b><span>600 тыс. активных ИП и малых ООО участвуют в 44-ФЗ/223-ФЗ. <span class="gold">Гипотеза</span></span></div>
+        <div class="assumption"><b>A2</b><span>60% не имеют тендерного отдела и ищут вручную. <span class="gold">Гипотеза</span></span></div>
+        <div class="assumption"><b>A3</b><span>20% готовы платить за специализированный сервис. <span class="gold">Гипотеза</span></span></div>
+        <div class="assumption"><b>A4</b><span>ARPU — 999 ₽/мес; годовая подписка не применяется. <span class="gold">Гипотеза</span></span></div>
+      </div>
+      <p class="footnote">Это рынок подписок на мониторинг в нашем ценовом сегменте, а не объём госзакупок. Полосы — схема, не в масштабе. Допущения проверяем по ЕИС/ФНС и интервью.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="slide" data-slide="6" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">06 · Конкуренты</span><span class="page">06 / 10</span></div>
+    <div class="slide-body">
+      <h2>Дешёвые не объясняют. Умные — дорогие.<br><span class="accent">Мы посередине.</span></h2>
+      <div class="matrix-wrap">
+        <div class="matrix" aria-label="Матрица конкурентов: цена и глубина AI-рекомендации">
+          <span class="axis-x">Цена →</span>
+          <span class="axis-y">Глубина AI-рекомендации →</span>
+          <span class="quad q-tl">Дёшево<br>и умно</span>
+          <span class="quad q-tr">Дорого<br>и умно</span>
+          <span class="quad q-bl">Дёшево<br>и просто</span>
+          <span class="quad q-br">Дорого<br>и просто</span>
+
+          <span class="dot" style="left:18%;bottom:16%"><i></i><span>Ручной поиск</span></span>
+          <span class="dot" style="left:32%;bottom:34%"><i></i><span>ChatGPT</span></span>
+          <span class="dot right" style="left:72%;bottom:56%"><i></i><span>Тендерплан</span></span>
+          <span class="dot right" style="left:86%;bottom:46%"><i></i><span>Контур</span></span>
+          <span class="dot main" style="left:26%;bottom:82%"><i></i><span>TenderScope</span></span>
+        </div>
+        <div class="honest">
+          <h3>Честно о слабых местах</h3>
+          <p>У нас <b>нет публичных пользователей, бренда и покрытия коммерческих площадок</b>. Тендерплан и Контур сильнее в аналитике, поддержке и продажах.</p>
+          <p>Мы выигрываем там, где нужен быстрый ответ <b>«идти или нет» за 999 ₽</b>, а не дашборд за десятки тысяч.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="slide" data-slide="7" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">07 · Бизнес-модель</span><span class="page">07 / 10</span></div>
+    <div class="slide-body">
+      <h2>999 ₽/мес — цена решения,<br><span class="accent">а не ещё одного поисковика.</span></h2>
+      <div class="plans">
+        <div class="plan">
+          <div class="plan-head"><span class="plan-name">Free</span><span class="plan-price">0 ₽</span></div>
+          <ul>
+            <li>1 профиль поиска</li>
+            <li>5 сообщений в чат в день</li>
+            <li>История 7 дней · 1 регион</li>
+            <li>Универсальная AI-оценка</li>
+          </ul>
+        </div>
+        <div class="plan pro">
+          <div class="plan-head"><span class="plan-name">Pro</span><span class="plan-price">999 ₽<small>/мес</small></span></div>
+          <ul>
+            <li>10 профилей · все регионы</li>
+            <li>Чат без лимита · история 90 дней</li>
+            <li>Персональная AI-оценка</li>
+            <li>Глубокий разбор документов</li>
+          </ul>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><b>999 ₽</b><span>ARPU</span></div>
+        <div class="metric"><b>≈ 85%</b><span>валовая маржа</span></div>
+        <div class="metric"><b>2–3 тыс. ₽</b><span>CAC</span></div>
+        <div class="metric"><b>≈ 17 тыс. ₽</b><span>LTV</span></div>
+        <div class="metric"><b>6–8x</b><span>LTV / CAC</span></div>
+        <div class="metric"><b>≈ 3 мес.</b><span>окупаемость CAC</span></div>
+      </div>
+      <p class="footnote">Юнит-экономика — модель, не факт: отток 5%/мес., конверсия Free → Pro 3–5%, переменные расходы ≈ 150 ₽/пользователь/мес. Проверяем на первых когортах.</p>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="slide" data-slide="8" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">08 · Traction и роадмап</span><span class="page">08 / 10</span></div>
+    <div class="slide-body">
+      <h2>Продукт готов.<br><span class="accent">Пользователей и выручки пока нет.</span></h2>
+      <div class="traction">
+        <div class="tcol yes">
+          <h3>Уже работает · факт</h3>
+          <ul>
+            <li>MVP end-to-end: профили, чат → фильтры, лента, сохранённые</li>
+            <li>Парсинг 44-ФЗ и 223-ФЗ с zakupki.gov.ru на живых данных</li>
+            <li>Быстрый AI-скоринг + персональная оценка для Pro</li>
+            <li>Глубокий анализ документов: сводка, риски, требования, вердикт</li>
+            <li>Аналитика заказчика: контракты, статистика, AI-портрет</li>
+            <li>Auth, лимиты Free/Pro, ЮKassa scaffold, наблюдаемость парсеров</li>
+          </ul>
+        </div>
+        <div class="tcol no">
+          <h3>Чего нет · честно</h3>
+          <ul>
+            <li>Публичных пользователей: 0</li>
+            <li>Выручки: 0</li>
+            <li>Листингов в RuStore / Google Play / App Store</li>
+            <li>Боевого платежа: кабинет ЮKassa не настроен</li>
+            <li>Подтверждённой доставки push end-to-end</li>
+            <li>Публичного деплоя</li>
+          </ul>
+        </div>
+      </div>
+      <div class="roadmap">
+        <div class="phase"><b>0–3 мес. · гипотеза</b><p>Блокеры, деплой в РФ, RuStore, 20–30 интервью, первый платёж</p></div>
+        <div class="phase"><b>3–6 мес. · гипотеза</b><p>Платный Pro, push, onboarding/paywall, 100 платящих</p></div>
+        <div class="phase"><b>6–12 мес. · гипотеза</b><p>Google Play, пилот коммерческих площадок, 500–800 платящих</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="slide" data-slide="9" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">09 · Команда</span><span class="page">09 / 10</span></div>
+    <div class="slide-body">
+      <h2>Команда: [N] человек.<br><span class="accent">Имена и опыт — заполнить до защиты.</span></h2>
+      <div class="team">
+        <div class="person">
+          <div class="avatar">01</div>
+          <h3>Продукт / CEO</h3>
+          <div class="role">Стратегия и продажи</div>
+          <p>Позиционирование, партнёрства, инвесторы, первый сегмент.</p>
+          <span class="placeholder">[Имя, фамилия]<br>[опыт и ссылка]</span>
+        </div>
+        <div class="person">
+          <div class="avatar">02</div>
+          <h3>Бэкенд / CTO</h3>
+          <div class="role">Платформа и данные</div>
+          <p>.NET, PostgreSQL, парсинг ЕИС, S3, инфраструктура.</p>
+          <span class="placeholder">[Имя, фамилия]<br>[опыт и ссылка]</span>
+        </div>
+        <div class="person">
+          <div class="avatar">03</div>
+          <h3>Flutter</h3>
+          <div class="role">Мобильный продукт</div>
+          <p>Экраны, UX, магазины, платежный flow.</p>
+          <span class="placeholder">[Имя, фамилия]<br>[опыт и ссылка]</span>
+        </div>
+        <div class="person">
+          <div class="avatar">04</div>
+          <h3>AI / рост</h3>
+          <div class="role">Модели и каналы</div>
+          <p>Промпты, скоринг, аналитика заказчика, привлечение.</p>
+          <span class="placeholder">[Имя, фамилия]<br>[опыт и ссылка]</span>
+        </div>
+      </div>
+      <p class="team-note">Это роли, а не подтверждённые биографии. Мы не придумываем людей и опыт: перед защитой заменяем placeholders на реальные имена и ссылки.</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" data-slide="10" aria-hidden="true">
+    <div class="slide-top"><span class="kicker">10 · Ask</span><span class="page">10 / 10</span></div>
+    <div class="slide-body">
+      <h2>Нужно 3,6 млн ₽ на 12 месяцев.</h2>
+      <div class="ask">
+        <div class="ask-left">
+          <div class="ask-sum">3,6 млн ₽<small>Чтобы выйти на первые 500–800 платящих Pro и проверить юнит-экономику. Цель — гипотеза.</small></div>
+          <p>Бюджет bottom-up, без «размытых» статей. Резерв — 10% на задержки и модерацию.</p>
+          <div class="result">
+            <div><b>500–800</b><span>платящих Pro</span></div>
+            <div><b>6–9,6 млн</b><span>ARR, ₽/год</span></div>
+            <div><b>0,5–0,8 млн</b><span>MRR, ₽/мес.</span></div>
+          </div>
+        </div>
+        <div class="budget">
+          <div class="budget-row"><span class="budget-name">Разработка</span><div class="budget-bar"><i style="width:33%"></i></div><span class="budget-val">1 200 000 ₽</span></div>
+          <div class="budget-row"><span class="budget-name">Маркетинг</span><div class="budget-bar"><i style="width:42%"></i></div><span class="budget-val">1 500 000 ₽</span></div>
+          <div class="budget-row"><span class="budget-name">Инфраструктура</span><div class="budget-bar"><i style="width:5%"></i></div><span class="budget-val">180 000 ₽</span></div>
+          <div class="budget-row"><span class="budget-name">GPT-расходы</span><div class="budget-bar"><i style="width:5%"></i></div><span class="budget-val">180 000 ₽</span></div>
+          <div class="budget-row"><span class="budget-name">Юридика и платежи</span><div class="budget-bar"><i style="width:5%"></i></div><span class="budget-val">180 000 ₽</span></div>
+          <div class="budget-row"><span class="budget-name">Резерв 10%</span><div class="budget-bar"><i class="gold" style="width:10%"></i></div><span class="budget-val">360 000 ₽</span></div>
+          <div class="budget-row"><span class="budget-name"><b>Итого</b></span><div class="budget-bar"><i style="width:100%"></i></div><span class="budget-val"><b>3 600 000 ₽</b></span></div>
+        </div>
+      </div>
+      <div class="contact">Контакт: [Имя] · [Telegram] · [email] · tenderscope.ru</div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="hud" aria-label="Навигация по слайдам">
+  <button id="prev" type="button" aria-label="Предыдущий слайд">←</button>
+  <div class="counter" aria-live="polite"><b id="current">01</b> / 10</div>
+  <button id="next" type="button" aria-label="Следующий слайд">→</button>
+</nav>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="hint">← → или пробел</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var current = document.getElementById('current');
+  var bar = document.getElementById('bar');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var index = 0;
+
+  function pad(n) {
+    return n < 10 ? '0' + n : String(n);
+  }
+
+  function show(i) {
+    index = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (slide, n) {
+      var active = n === index;
+      slide.classList.toggle('is-active', active);
+      slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    current.textContent = pad(index + 1);
+    bar.style.width = ((index + 1) / slides.length * 100) + '%';
+    prev.disabled = index === 0;
+    next.disabled = index === slides.length - 1;
+  }
+
+  prev.addEventListener('click', function () { show(index - 1); });
+  next.addEventListener('click', function () { show(index + 1); });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+
+    switch (event.key) {
+      case 'ArrowRight':
+      case ' ':
+      case 'Spacebar':
+      case 'PageDown':
+        event.preventDefault();
+        show(index + 1);
+        break;
+      case 'ArrowLeft':
+      case 'PageUp':
+      case 'Backspace':
+        event.preventDefault();
+        show(index - 1);
+        break;
+      case 'Home':
+        event.preventDefault();
+        show(0);
+        break;
+      case 'End':
+        event.preventDefault();
+        show(slides.length - 1);
+        break;
+    }
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>

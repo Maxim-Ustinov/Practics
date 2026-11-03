@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../../../landing/assets/favicon.svg" type="image/svg+xml">
+<title>TenderScope — ПЗ №9: решения, риски, коммуникация</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1F1F1F;
+    --bg-2:#262626;
+    --bg-3:#2E2E2E;
+    --blue:#4F7CFF;
+    --blue-soft:rgba(79,124,255,.14);
+    --gold:#FFB547;
+    --gold-soft:rgba(255,181,71,.12);
+    --red:#FF6B6B;
+    --green:#5BD6A2;
+    --text:#F4F5F7;
+    --muted:#A7ACB8;
+    --line:rgba(255,255,255,.11);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Manrope','Segoe UI',system-ui,-apple-system,sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(900px 520px at 88% -8%, rgba(79,124,255,.20), transparent 62%),
+      radial-gradient(760px 500px at -8% 108%, rgba(255,181,71,.10), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:72px 72px;
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,.55), transparent 85%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .progress{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:3px;
+    background:rgba(255,255,255,.06);
+    z-index:60;
+  }
+  .progress__bar{
+    height:100%;
+    width:10%;
+    background:linear-gradient(90deg,var(--blue),var(--gold));
+    transition:width .3s ease;
+  }
+
+  .deck{position:fixed;inset:0;z-index:1}
+  .slide{
+    position:absolute;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    padding:clamp(26px,4.2vh,54px) clamp(28px,5vw,86px) 78px;
+    overflow:hidden;
+  }
+  .slide.active{display:flex;animation:enter .38s cubic-bezier(.2,.7,.3,1)}
+  @keyframes enter{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:none}
+  }
+  .inner{
+    width:100%;
+    max-width:1460px;
+    margin:0 auto;
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .kicker{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--gold);
+    margin-bottom:10px;
+  }
+  .kicker::before{
+    content:"";
+    width:22px;height:2px;
+    background:var(--gold);
+    border-radius:2px;
+  }
+  h1,h2,h3,p{margin:0}
+  h1{
+    font-size:clamp(42px,6vw,84px);
+    line-height:1.02;
+    letter-spacing:-.035em;
+    font-weight:800;
+  }
+  h2{
+    font-size:clamp(27px,3.2vw,42px);
+    line-height:1.12;
+    letter-spacing:-.025em;
+    font-weight:800;
+  }
+  h3{
+    font-size:15px;
+    line-height:1.3;
+    letter-spacing:-.01em;
+    font-weight:800;
+  }
+  .lead{
+    color:var(--muted);
+    font-size:clamp(13px,1.15vw,16px);
+    line-height:1.55;
+    max-width:960px;
+  }
+  .muted{color:var(--muted)}
+  .gold{color:var(--gold)}
+  .blue{color:var(--blue)}
+  .small{font-size:12px;line-height:1.45}
+  .tiny{font-size:10.5px;line-height:1.4}
+
+  .slide-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:28px;
+    margin-bottom:clamp(14px,2.2vh,26px);
+    flex-shrink:0;
+  }
+  .slide-head .lead{margin-top:8px}
+  .slide-no{
+    font-size:12px;
+    font-weight:800;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:7px 12px;
+    white-space:nowrap;
+  }
+
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    min-height:0;
+  }
+  .card--blue{border-color:rgba(79,124,255,.38);background:linear-gradient(180deg,rgba(79,124,255,.15),rgba(79,124,255,.04))}
+  .card--gold{border-color:rgba(255,181,71,.38);background:linear-gradient(180deg,rgba(255,181,71,.14),rgba(255,181,71,.03))}
+  .card__label{
+    font-size:10px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .card__big{
+    font-size:clamp(28px,3.4vw,46px);
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-.03em;
+  }
+  .card--fill{display:flex;flex-direction:column}
+  .card__bottom{
+    margin-top:auto;
+    padding-top:10px;
+    border-top:1px solid var(--line);
+    font-size:10.6px;
+    line-height:1.4;
+    color:var(--muted);
+  }
+  .card__bottom b{color:#fff}
+
+  ul.clean{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+  ul.clean li{
+    position:relative;
+    padding-left:15px;
+    font-size:clamp(12px,1.05vw,14.5px);
+    line-height:1.42;
+    color:#D9DCE3;
+  }
+  ul.clean li::before{
+    content:"";
+    position:absolute;
+    left:0;top:.55em;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:var(--blue);
+  }
+  ul.clean li strong{color:#fff;font-weight:700}
+  ul.clean--gold li::before{background:var(--gold)}
+  ul.clean--red li::before{background:var(--red)}
+
+  .grid{display:grid;gap:clamp(10px,1.3vw,16px);min-height:0}
+  .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.04);
+    font-size:11px;
+    font-weight:700;
+    color:#D9DCE3;
+    white-space:nowrap;
+  }
+  .pill--blue{border-color:rgba(79,124,255,.45);background:var(--blue-soft);color:#C9D6FF}
+  .pill--gold{border-color:rgba(255,181,71,.45);background:var(--gold-soft);color:#FFD9A0}
+  .pill--red{border-color:rgba(255,107,107,.45);background:rgba(255,107,107,.10);color:#FFC2C2}
+
+  /* ---------- title ---------- */
+  .title-slide{justify-content:center}
+  .title-wrap{
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:40px;
+    align-items:center;
+    flex:1;
+  }
+  .brandline{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+  .logo{
+    width:46px;height:46px;border-radius:13px;
+    background:linear-gradient(145deg,var(--blue),#2F56C9);
+    display:grid;place-items:center;
+    font-weight:800;font-size:17px;letter-spacing:-.06em;
+    box-shadow:0 10px 30px rgba(79,124,255,.30);
+  }
+  .brandline__name{font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .brandline__tag{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .title-meta{
+    display:flex;flex-wrap:wrap;gap:9px;margin-top:26px;
+  }
+  .title-desc{
+    margin-top:20px;
+    font-size:clamp(15px,1.4vw,19px);
+    line-height:1.55;
+    color:#D9DCE3;
+    max-width:720px;
+  }
+  .scope-art{
+    position:relative;
+    height:min(52vh,440px);
+    display:grid;place-items:center;
+  }
+  .ring{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .ring.r1{width:100%;height:100%;border-color:rgba(79,124,255,.35)}
+  .ring.r2{width:72%;height:72%;border-color:rgba(255,255,255,.14)}
+  .ring.r3{width:44%;height:44%;border-color:rgba(255,181,71,.45)}
+  .ring::before,.ring::after{
+    content:"";position:absolute;background:rgba(255,255,255,.18);
+  }
+  .ring::before{left:50%;top:-7px;width:1px;height:14px;transform:translateX(-50%)}
+  .ring::after{top:50%;left:-7px;height:1px;width:14px;transform:translateY(-50%)}
+  .scope-core{
+    width:34%;height:34%;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, rgba(79,124,255,.95), rgba(79,124,255,.18) 58%, transparent 70%);
+    filter:blur(.2px);
+    box-shadow:0 0 80px rgba(79,124,255,.35);
+    display:grid;place-items:center;
+  }
+  .scope-core span{
+    width:8px;height:8px;border-radius:50%;background:var(--gold);
+    box-shadow:0 0 18px rgba(255,181,71,.9);
+  }
+  .scope-label{
+    position:absolute;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  }
+  .scope-label.l1{top:4%;left:50%;transform:translateX(-50%)}
+  .scope-label.l2{bottom:4%;left:50%;transform:translateX(-50%)}
+  .scope-label.l3{left:-2%;top:50%;transform:translateY(-50%) rotate(-90deg)}
+  .scope-label.l4{right:-2%;top:50%;transform:translateY(-50%) rotate(90deg)}
+
+  /* ---------- SWOT ---------- */
+  .swot{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;flex:1;min-height:0}
+  .swot .card{padding:14px 17px;display:flex;flex-direction:column}
+  .swot__head{display:flex;align-items:baseline;gap:9px;margin-bottom:8px;flex-shrink:0}
+  .swot__letter{
+    font-size:24px;font-weight:800;line-height:1;letter-spacing:-.04em;
+  }
+  .swot__name{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .swot ul.clean{gap:5px}
+  .swot ul.clean li{font-size:11.7px;line-height:1.38;padding-left:12px}
+  .swot ul.clean li::before{width:4px;height:4px;top:.6em}
+  .swot .S .swot__letter{color:var(--blue)}
+  .swot .W .swot__letter{color:var(--gold)}
+  .swot .O .swot__letter{color:var(--green)}
+  .swot .T .swot__letter{color:var(--red)}
+
+  /* ---------- risk ---------- */
+  .risk-layout{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(16px,2.4vw,32px);flex:1;min-height:0}
+  .matrix-wrap{display:flex;flex-direction:column;min-height:0}
+  .matrix{
+    display:grid;
+    grid-template-columns:56px repeat(5,1fr);
+    gap:5px;
+    margin-top:8px;
+  }
+  .matrix__corner,.matrix__axis{
+    display:grid;place-items:center;
+    font-size:10px;font-weight:800;color:var(--muted);
+    letter-spacing:.06em;
+  }
+  .matrix__cell{
+    min-height:clamp(38px,5.6vh,54px);
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,.06);
+    background:rgba(255,255,255,.025);
+    display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;
+    font-size:10px;font-weight:800;color:#fff;
+    padding:3px;
+  }
+  .matrix__cell[data-zone="crit"]{background:rgba(255,107,107,.20);border-color:rgba(255,107,107,.36);color:#FFD0D0}
+  .matrix__cell[data-zone="high"]{background:rgba(255,181,71,.15);border-color:rgba(255,181,71,.32);color:#FFE0AE}
+  .matrix__cell[data-zone="mid"]{background:rgba(79,124,255,.12);border-color:rgba(79,124,255,.30);color:#CBD8FF}
+  .matrix__cell[data-zone="low"]{background:rgba(91,214,162,.08);border-color:rgba(91,214,162,.22);color:#B8F0DA}
+  .matrix__cell b{font-weight:800}
+  .axis-note{font-size:10px;color:var(--muted);margin-top:9px;line-height:1.4}
+  .top5{display:flex;flex-direction:column;gap:8px;min-height:0}
+  .top5__row{
+    display:grid;
+    grid-template-columns:26px 1fr auto;
+    gap:10px;align-items:center;
+    padding:9px 12px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:rgba(255,255,255,.03);
+  }
+  .top5__rank{font-size:12px;font-weight:800;color:var(--muted)}
+  .top5__title{font-size:12.3px;font-weight:700;line-height:1.3}
+  .top5__sub{font-size:10.2px;color:var(--muted);margin-top:2px}
+  .score{
+    font-size:13px;font-weight:800;
+    min-width:38px;text-align:center;
+    padding:4px 8px;border-radius:8px;
+    background:rgba(255,107,107,.14);border:1px solid rgba(255,107,107,.32);color:#FFC7C7;
+  }
+  .score--high{background:rgba(255,181,71,.12);border-color:rgba(255,181,71,.30);color:#FFDC9F}
+
+  /* ---------- table ---------- */
+  table.data{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0 6px;
+    font-size:clamp(11px,1.05vw,13.5px);
+  }
+  table.data th{
+    text-align:left;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:800;
+    padding:0 12px 4px;
+    white-space:nowrap;
+  }
+  table.data td{
+    background:rgba(255,255,255,.032);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:9px 12px;
+    vertical-align:middle;
+  }
+  table.data td:first-child{border-left:1px solid var(--line);border-radius:10px 0 0 10px}
+  table.data td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
+  table.data tr.hl td{background:rgba(79,124,255,.14);border-color:rgba(79,124,255,.35)}
+  table.data tr.hl td:first-child{box-shadow:inset 3px 0 0 var(--blue)}
+  .num{font-variant-numeric:tabular-nums;font-weight:800}
+  .total{font-weight:800;color:var(--gold);font-size:15px}
+
+  /* ---------- decision ---------- */
+  .decision{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(16px,2.4vw,30px);flex:1;min-height:0}
+  .decision__hero{display:flex;flex-direction:column;justify-content:center}
+  .decision__letter{
+    font-size:clamp(54px,7vw,96px);
+    line-height:.9;font-weight:800;letter-spacing:-.06em;
+    color:var(--blue);
+    margin-bottom:6px;
+  }
+  .decision__hero h2{margin-bottom:12px}
+  .decision__hero .lead{max-width:620px}
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pillar{padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+  .pillar__n{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.1em;margin-bottom:5px}
+  .pillar__t{font-size:13px;font-weight:800;margin-bottom:4px}
+  .pillar__d{font-size:11px;line-height:1.38;color:var(--muted)}
+  .not-doing{
+    margin-top:12px;padding:10px 13px;border-radius:12px;
+    border:1px solid rgba(255,107,107,.28);background:rgba(255,107,107,.07);
+    font-size:11.2px;line-height:1.45;color:#FFD0D0;
+  }
+
+  /* ---------- 30/60/90 ---------- */
+  .plan{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;min-height:0}
+  .plan__col{
+    display:flex;flex-direction:column;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+    padding:16px 16px 14px;
+    min-height:0;
+    position:relative;
+    overflow:hidden;
+  }
+  .plan__col:nth-child(1){border-top:3px solid var(--blue)}
+  .plan__col:nth-child(2){border-top:3px solid #7EA0FF}
+  .plan__col:nth-child(3){border-top:3px solid var(--gold)}
+  .plan__days{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+  .plan__title{font-size:17px;font-weight:800;margin:4px 0 10px;line-height:1.2}
+  .plan ul.clean{gap:6px;flex:1}
+  .plan ul.clean li{font-size:11.6px;line-height:1.38;padding-left:12px}
+  .plan ul.clean li::before{width:4px;height:4px;top:.6em}
+  .plan__facts{margin-top:12px;display:flex;flex-direction:column;gap:6px;position:relative;z-index:2}
+  .plan__fact{
+    display:grid;grid-template-columns:58px 1fr;gap:7px;
+    padding-top:6px;border-top:1px solid rgba(255,255,255,.07);
+    font-size:10.2px;line-height:1.32;color:#C6CAD2;
+  }
+  .plan__fact b{
+    font-size:8.8px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);font-weight:800;padding-top:1px;
+  }
+  .plan__owner{
+    margin-top:9px;
+    font-size:10.4px;
+    color:var(--muted);
+    position:relative;z-index:2;
+  }
+  .plan__num{
+    position:absolute;
+    right:6px;bottom:44px;
+    font-size:104px;
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-.07em;
+    color:rgba(255,255,255,.035);
+    pointer-events:none;
+    z-index:0;
+  }
+  .gate{
+    margin-top:10px;padding:8px 10px;border-radius:9px;
+    background:rgba(255,181,71,.10);border:1px solid rgba(255,181,71,.25);
+    font-size:10.6px;line-height:1.4;color:#FFE1B3;
+    position:relative;z-index:2;
+  }
+  .gate b{color:var(--gold)}
+
+  /* ---------- comms ---------- */
+  .comms{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(14px,2vw,28px);flex:1;min-height:0}
+  .roles{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  table.raci{width:100%;border-collapse:collapse;font-size:11.5px}
+  table.raci th{
+    font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+    font-weight:800;padding:0 5px 5px;text-align:center;
+  }
+  table.raci th:first-child{text-align:left}
+  table.raci td{
+    padding:6px 5px;border-top:1px solid rgba(255,255,255,.08);text-align:center;
+    color:#D9DCE3;
+  }
+  table.raci td:first-child{text-align:left;font-weight:700;color:#fff;font-size:11.2px}
+  .r{color:var(--blue);font-weight:800}
+  .a{color:var(--gold);font-weight:800}
+  .c{color:#C8CCD4;font-weight:700}
+  .i{color:#6F7480;font-weight:700}
+  .rhythm{display:flex;flex-direction:column;gap:7px}
+  .rhythm__row{
+    display:grid;grid-template-columns:120px 1fr;
+    gap:10px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;
+    background:rgba(255,255,255,.028);
+  }
+  .rhythm__name{font-size:11.5px;font-weight:800}
+  .rhythm__desc{font-size:10.6px;color:var(--muted);line-height:1.35}
+  .escalation{
+    margin-top:9px;padding:9px 11px;border-radius:10px;
+    border:1px solid rgba(255,107,107,.26);background:rgba(255,107,107,.06);
+    font-size:10.7px;line-height:1.42;color:#FFD0D0;
+  }
+  .channels{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    margin-top:10px;
+    flex-shrink:0;
+  }
+  .channel{
+    padding:9px 11px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:rgba(255,255,255,.028);
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .channel b{font-size:11.5px;color:#fff}
+  .channel span{font-size:10.2px;color:#C6CAD2;line-height:1.3}
+  .channel em{font-size:9.8px;color:var(--muted);font-style:normal;margin-top:2px}
+
+  /* ---------- objections ---------- */
+  .obj-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(14px,2vw,24px);flex:1;min-height:0}
+  .obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .obj{
+    padding:9px 11px;border-radius:11px;border:1px solid var(--line);
+    background:rgba(255,255,255,.028);
+  }
+  .obj__q{font-size:11.4px;font-weight:800;color:var(--gold);margin-bottom:3px}
+  .obj__a{font-size:10.5px;line-height:1.35;color:#D2D6DE}
+  .steps{display:flex;flex-direction:column;gap:7px}
+  .step{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+  .step__n{
+    width:22px;height:22px;border-radius:50%;
+    display:grid;place-items:center;
+    background:var(--blue-soft);border:1px solid rgba(79,124,255,.4);
+    font-size:10px;font-weight:800;color:#C9D6FF;
+  }
+  .step__t{font-size:11.3px;line-height:1.35;color:#D9DCE3}
+  .step__t b{color:#fff}
+
+  /* ---------- conclusions ---------- */
+  .concl{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(16px,2.4vw,32px);flex:1;min-height:0}
+  .concl__list{display:flex;flex-direction:column;gap:9px}
+  .concl__item{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+  .concl__n{font-size:13px;font-weight:800;color:var(--gold)}
+  .concl__t{font-size:13.2px;line-height:1.4;color:#E2E5EB}
+  .concl__t b{color:#fff}
+  .next{display:flex;flex-direction:column;gap:8px}
+  .next__card{
+    padding:11px 13px;border-radius:12px;border:1px solid var(--line);
+    background:rgba(255,255,255,.03);
+  }
+  .next__k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:3px}
+  .next__v{font-size:11.8px;line-height:1.35;font-weight:700}
+  .doclinks{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .doclinks a{
+    color:#C9D6FF;text-decoration:none;font-size:10.5px;font-weight:700;
+    border:1px solid rgba(79,124,255,.3);background:rgba(79,124,255,.08);
+    padding:5px 8px;border-radius:7px;
+  }
+  .doclinks a:hover{background:rgba(79,124,255,.18)}
+  .metrics-strip{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    margin-top:12px;
+    flex-shrink:0;
+  }
+  .metric{
+    padding:9px 11px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:rgba(255,255,255,.028);
+  }
+  .metric b{
+    display:block;
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:-.02em;
+    color:var(--gold);
+    line-height:1.1;
+  }
+  .metric span{
+    display:block;
+    margin-top:3px;
+    font-size:9.8px;
+    line-height:1.3;
+    color:var(--muted);
+  }
+
+  /* ---------- chrome ---------- */
+  .hud{
+    position:fixed;left:0;right:0;bottom:0;
+    height:56px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 clamp(20px,4vw,54px);
+    background:linear-gradient(180deg, rgba(31,31,31,0), rgba(31,31,31,.92) 42%);
+    z-index:50;
+    pointer-events:none;
+  }
+  .hud__left{
+    font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7E838E;font-weight:700;
+  }
+  .hud__left b{color:var(--gold)}
+  .hud__right{display:flex;align-items:center;gap:8px;pointer-events:auto}
+  .navbtn{
+    width:34px;height:34px;border-radius:10px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.05);
+    color:var(--text);font-size:17px;line-height:1;
+    cursor:pointer;display:grid;place-items:center;
+    transition:background .18s ease,border-color .18s ease;
+  }
+  .navbtn:hover{background:rgba(79,124,255,.2);border-color:rgba(79,124,255,.5)}
+  .navbtn:disabled{opacity:.3;cursor:default}
+  .counter{
+    font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;
+    color:var(--muted);min-width:52px;text-align:center;
+  }
+  .hint{font-size:9.5px;color:#6F7480;letter-spacing:.05em}
+
+  .footnote{font-size:9.8px;color:#7E838E;line-height:1.4;margin-top:auto;padding-top:8px}
+
+  @media (max-width:1000px){
+    .title-wrap,.decision,.comms,.obj-layout,.concl,.risk-layout{grid-template-columns:1fr}
+    .scope-art{display:none}
+    .grid-4{grid-template-columns:1fr 1fr}
+    .swot{grid-template-columns:1fr;grid-template-rows:auto}
+    .plan{grid-template-columns:1fr}
+    .slide{overflow:auto}
+    .hint{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .slide.active{animation:none}
+    .progress__bar{transition:none}
+  }
+</style>
+<style>
+  /* Shared TenderScope print contract: one 16:9 slide per landscape page. */
+  body { font-family: "Manrope", "Segoe UI", Arial, sans-serif; }
+  @media print {
+    @page { size: 16in 9in; margin: 0; }
+    html, body { width: 100%; height: auto; overflow: visible; background: #1F1F1F; }
+    .deck { position: static; height: auto; }
+    .slide, .slide.active { position: relative; display: flex !important; width: 100vw; height: 56.25vw; min-height: 0; page-break-after: always; break-after: page; }
+    .slide:last-of-type { page-break-after: auto; break-after: auto; }
+    .hud, .hint, .progress { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress__bar" id="bar"></div></div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 -->
+  <section class="slide title-slide active" aria-label="Титул">
+    <div class="inner">
+      <div class="title-wrap">
+        <div>
+          <div class="brandline">
+            <div class="logo">TS</div>
+            <div>
+              <div class="brandline__name">TenderScope</div>
+              <div class="brandline__tag">Умный поиск закупок для бизнеса</div>
+            </div>
+          </div>
+
+          <div class="kicker">Практическое занятие №9</div>
+          <h1>Решения.<br>Риски.<br><span class="gold">Коммуникация.</span></h1>
+
+          <p class="title-desc">
+            Кейс №6 «Высокая конкуренция»: как стартапу без публичного traction
+            выбрать фокус на 90 дней и не сгореть в войне с Тендерплан и Контур.
+          </p>
+
+          <div class="title-meta">
+            <span class="pill pill--gold">Кейс №6</span>
+            <span class="pill pill--blue">Free + Pro 999 ₽/мес</span>
+            <span class="pill">MVP без публичных пользователей</span>
+            <span class="pill">02.11.2026</span>
+          </div>
+        </div>
+
+        <div class="scope-art" aria-hidden="true">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="scope-core"><span></span></div>
+          <div class="scope-label l1">рынок</div>
+          <div class="scope-label l2">решение</div>
+          <div class="scope-label l3">риски</div>
+          <div class="scope-label l4">команда</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" aria-label="Цель и кейс">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">01 / Цель и кейс</div>
+          <h2>Что решаем и в каких условиях</h2>
+          <p class="lead">Не «как стать больше конкурента», а «в чём быть незаменимыми для одного сегмента, чтобы за это платили 999 ₽».</p>
+        </div>
+        <span class="slide-no">02 / 10</span>
+      </div>
+
+      <div class="grid grid-3" style="flex:1">
+        <div class="card card--blue card--fill">
+          <div class="card__label">Рынок</div>
+          <ul class="clean">
+            <li><strong>Тендерплан, Контур</strong> — бренд, база, отделы продаж</li>
+            <li><strong>Ручной поиск</strong> — бесплатно, но не мониторит 24/7</li>
+            <li><strong>ChatGPT</strong> — бесплатно, но не знает zakupki и историю заказчика</li>
+            <li><strong>Малый бизнес без тендерного отдела</strong> — наш ICP</li>
+          </ul>
+          <div class="card__bottom"><b>Вывод:</b> не соревноваться размером базы.</div>
+        </div>
+        <div class="card card--gold card--fill">
+          <div class="card__label">Наш старт</div>
+          <ul class="clean clean--gold">
+            <li><strong>Пайплайн собран</strong> end-to-end: поиск → чат → лента → deep analysis</li>
+            <li><strong>Публичного traction нет</strong>: пользователей и выручки пока нет</li>
+            <li><strong>Один источник</strong> — HTML zakupki; push и оплата не закрыты</li>
+            <li><strong>999 ₽/мес</strong>, Free для проверки — без % от контракта</li>
+          </ul>
+          <div class="card__bottom"><b>Вывод:</b> сначала закрыть push и оплату.</div>
+        </div>
+        <div class="card card--fill">
+          <div class="card__label">Вопрос кейса</div>
+          <p style="font-size:16px;line-height:1.45;font-weight:700;margin-bottom:12px">
+            На чём сфокусировать 90 дней, чтобы получить первых платящих и защищаемое преимущество?
+          </p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="pill">4 альтернативы</span>
+            <span class="pill">12 рисков</span>
+            <span class="pill">3 gate</span>
+          </div>
+          <div class="card__bottom"><b>Ответ:</b> кейс №6 → решение D.</div>
+        </div>
+      </div>
+
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="card" style="padding:12px 16px">
+          <div class="card__label">Продукт</div>
+          <div style="font-size:13px;font-weight:700">ИП и малые ООО без тендерного отдела</div>
+        </div>
+        <div class="card" style="padding:12px 16px">
+          <div class="card__label">Модель</div>
+          <div style="font-size:13px;font-weight:700">Free + Pro 999 ₽/мес, без % от контракта</div>
+        </div>
+        <div class="card" style="padding:12px 16px">
+          <div class="card__label">Ограничение</div>
+          <div style="font-size:13px;font-weight:700">Без найма, инвестиций и новых источников</div>
+        </div>
+      </div>
+
+      <div class="footnote">Факты — по PROJECT_CONTEXT.md; целевые метрики — гипотезы H3–H8 из курсового плана, а не достигнутые результаты.</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" aria-label="SWOT">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">02 / SWOT</div>
+          <h2>Сильные и слабые стороны — в одном экране</h2>
+          <p class="lead">SWOT привязан к продукту: AI-рекомендация, deep analysis, mobile-first, 999 ₽ — против одного источника и отсутствия traction.</p>
+        </div>
+        <span class="slide-no">03 / 10</span>
+      </div>
+
+      <div class="swot">
+        <div class="card S">
+          <div class="swot__head"><span class="swot__letter">S</span><span class="swot__name">Strengths</span></div>
+          <ul class="clean">
+            <li><strong>Рекомендация, а не дашборд:</strong> OverallScore + participate/skip/review + риски</li>
+            <li><strong>Deep analysis:</strong> PDF/DOCX/XLSX → S3 → GPT, budget guard и кеш по отпечатку</li>
+            <li><strong>Mobile-first:</strong> профиль одним сообщением, 13 секций в карточке</li>
+            <li><strong>999 ₽ фикс:</strong> без % от контракта, Free для проверки</li>
+            <li><strong>Фокус на малом бизнесе:</strong> лимиты и UX под собственника, а не отдел</li>
+          </ul>
+        </div>
+        <div class="card W">
+          <div class="swot__head"><span class="swot__letter">W</span><span class="swot__name">Weaknesses</span></div>
+          <ul class="clean clean--gold">
+            <li><strong>Нет traction:</strong> не доказаны retention, конверсия и готовность платить</li>
+            <li><strong>Один источник:</strong> HTML zakupki; ea615 частично, multi-customer упрощён</li>
+            <li><strong>GPT-себестоимость:</strong> 500 ₽/день, ставки 15/60 ₽ за 1M токенов</li>
+            <li><strong>Слабый маркетинг:</strong> нет лендинга, кейсов и дистрибуции</li>
+            <li><strong>Молодой бренд:</strong> push, onboarding и paywall ещё не закрыты</li>
+          </ul>
+        </div>
+        <div class="card O">
+          <div class="swot__head"><span class="swot__letter">O</span><span class="swot__name">Opportunities</span></div>
+          <ul class="clean">
+            <li><strong>Малые поставщики и квоты СМП</strong> — ICP без тендерного отдела</li>
+            <li><strong>223-ФЗ</strong> — меньше специализированных инструментов</li>
+            <li><strong>RuStore:</strong> бесплатно + in-app ЮKassa без 15–30% комиссии</li>
+            <li><strong>Досье заказчика:</strong> история контрактов уже собирается по ИНН</li>
+            <li><strong>Коммерческие площадки</strong> после MVP и юр. аудита</li>
+          </ul>
+        </div>
+        <div class="card T">
+          <div class="swot__head"><span class="swot__letter">T</span><span class="swot__name">Threats</span></div>
+          <ul class="clean clean--red">
+            <li><strong>Тендерплан/Контур</strong> могут добавить AI в существующий тариф</li>
+            <li><strong>Хрупкость zakupki:</strong> вёрстка, капча, геоблок иностранных ДЦ</li>
+            <li><strong>Рост цен на GPT и курс</strong> при фиксированных 999 ₽</li>
+            <li><strong>Регуляторика:</strong> 152-ФЗ, ToS площадок, правила магазинов</li>
+            <li><strong>Копирование фич:</strong> барьер — только данные исходов</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" aria-label="Риски">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">03 / Риски</div>
+          <h2>Матрица и топ-5: что реально останавливает продукт</h2>
+          <p class="lead">Балл = вероятность × влияние. 🔴 20–25 — критическая зона, 🟠 12–19 — высокая, 🟡 6–11 — средняя.</p>
+        </div>
+        <span class="slide-no">04 / 10</span>
+      </div>
+
+      <div class="risk-layout">
+        <div class="matrix-wrap">
+          <div class="matrix" role="table" aria-label="Матрица вероятность на влияние">
+            <div class="matrix__corner">I \ P</div>
+            <div class="matrix__axis">1</div>
+            <div class="matrix__axis">2</div>
+            <div class="matrix__axis">3</div>
+            <div class="matrix__axis">4</div>
+            <div class="matrix__axis">5</div>
+
+            <div class="matrix__axis">5</div>
+            <div class="matrix__cell"></div>
+            <div class="matrix__cell" data-zone="mid">R-05</div>
+            <div class="matrix__cell" data-zone="high">R-08 · R-09</div>
+            <div class="matrix__cell" data-zone="high"><b>R-02</b></div>
+            <div class="matrix__cell" data-zone="crit"><b>R-01</b></div>
+
+            <div class="matrix__axis">4</div>
+            <div class="matrix__cell"></div>
+            <div class="matrix__cell"></div>
+            <div class="matrix__cell" data-zone="high">R-12</div>
+            <div class="matrix__cell" data-zone="high"><b>R-04 · R-07</b></div>
+            <div class="matrix__cell" data-zone="crit"><b>R-03</b></div>
+
+            <div class="matrix__axis">3</div>
+            <div class="matrix__cell"></div>
+            <div class="matrix__cell"></div>
+            <div class="matrix__cell" data-zone="mid">R-11</div>
+            <div class="matrix__cell" data-zone="high">R-10</div>
+            <div class="matrix__cell" data-zone="high">R-06</div>
+
+            <div class="matrix__axis">2</div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+
+            <div class="matrix__axis">1</div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+            <div class="matrix__cell" data-zone="low"></div>
+          </div>
+          <div class="axis-note">Строки — влияние (5 — останавливает продукт), столбцы — вероятность (5 — уже происходит). R-05 с баллом 10 остаётся на контроле: impact 5.</div>
+        </div>
+
+        <div>
+          <div class="card__label" style="margin-bottom:7px">Топ-5 по баллу</div>
+          <div class="top5">
+            <div class="top5__row">
+              <div class="top5__rank">1</div>
+              <div><div class="top5__title">R-01 · Push не подтверждён E2E</div><div class="top5__sub">Интеграция есть, доставка на устройстве не подтверждена</div></div>
+              <div class="score">25</div>
+            </div>
+            <div class="top5__row">
+              <div class="top5__rank">2</div>
+              <div><div class="top5__title">R-02 · Хрупкость парсинга zakupki</div><div class="top5__sub">Единственный источник = единая точка отказа</div></div>
+              <div class="score">20</div>
+            </div>
+            <div class="top5__row">
+              <div class="top5__rank">3</div>
+              <div><div class="top5__title">R-03 · Нет traction и спроса</div><div class="top5__sub">Не доказаны retention, цена и канал</div></div>
+              <div class="score">20</div>
+            </div>
+            <div class="top5__row">
+              <div class="top5__rank">4</div>
+              <div><div class="top5__title">R-07 · Биллинг не доведён</div><div class="top5__sub">ЮKassa, миграция, сверка целевой цены 999 ₽</div></div>
+              <div class="score score--high">16</div>
+            </div>
+            <div class="top5__row">
+              <div class="top5__rank">5</div>
+              <div><div class="top5__title">R-04 · GPT-расходы съедают маржу</div><div class="top5__sub">999 ₽ фикс против токенов и курса</div></div>
+              <div class="score score--high">16</div>
+            </div>
+          </div>
+          <div class="footnote">При равном балле выше тот, чей триггер наступает раньше и сильнее блокирует выручку. Поэтому R-07 выше R-04.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" aria-label="Альтернативы">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">04 / Альтернативы</div>
+          <h2>Четыре ответа на конкуренцию — и цена каждого</h2>
+          <p class="lead">Оценки по 5-балльной шкале, где 5 = лучше. Веса: стоимость 20%, скорость 20%, защищаемость 25%, риск 20%, ресурсы 15%.</p>
+        </div>
+        <span class="slide-no">05 / 10</span>
+      </div>
+
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Альтернатива</th>
+            <th style="text-align:center">Стоимость<br><span style="font-weight:600">20%</span></th>
+            <th style="text-align:center">Скорость<br><span style="font-weight:600">20%</span></th>
+            <th style="text-align:center">Защита<br><span style="font-weight:600">25%</span></th>
+            <th style="text-align:center">Риск<br><span style="font-weight:600">20%</span></th>
+            <th style="text-align:center">Ресурсы<br><span style="font-weight:600">15%</span></th>
+            <th style="text-align:center">Итог</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>A. Ценовая война</b><div class="tiny muted">499–699 ₽, скидки, демпинг</div></td>
+            <td class="num" style="text-align:center">5</td>
+            <td class="num" style="text-align:center">5</td>
+            <td class="num" style="text-align:center">1</td>
+            <td class="num" style="text-align:center">2</td>
+            <td class="num" style="text-align:center">2</td>
+            <td class="total" style="text-align:center">2,95</td>
+          </tr>
+          <tr>
+            <td><b>B. Узкая ниша</b><div class="tiny muted">один сегмент, 3–5 регионов</div></td>
+            <td class="num" style="text-align:center">4</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="total" style="text-align:center">3,20</td>
+          </tr>
+          <tr>
+            <td><b>C. Партнёрство / интеграция</b><div class="tiny muted">ЭТП, бухгалтерии, ассоциации</div></td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">2</td>
+            <td class="num" style="text-align:center">2</td>
+            <td class="total" style="text-align:center">2,65</td>
+          </tr>
+          <tr class="hl">
+            <td><b>D. Ускорение AI-дифференциации</b><div class="tiny muted">глубина + объяснение + данные исходов</div></td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">4</td>
+            <td class="num" style="text-align:center">3</td>
+            <td class="num" style="text-align:center">5</td>
+            <td class="total" style="text-align:center">3,55</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="card" style="padding:12px 15px">
+          <div class="card__label">Почему A проигрывает</div>
+          <div class="small">Цену скопируют за день. При 999 ₽ и токен-себестоимости демпинг делает каждого клиента убыточным, а запас денег меньше, чем у Контура.</div>
+        </div>
+        <div class="card" style="padding:12px 15px">
+          <div class="card__label">Почему B недостаточно</div>
+          <div class="small">Ниша ускоряет обучение и удешевляет канал, но не отвечает на вопрос «почему нас не скопируют». Это фокус охвата, а не стратегия.</div>
+        </div>
+        <div class="card" style="padding:12px 15px">
+          <div class="card__label">Почему C рано</div>
+          <div class="small">Партнёру нужен доказанный сценарий и метрики. Длинный цикл сделки и зависимость от чужой политики отвлекают от релизных блокеров.</div>
+        </div>
+      </div>
+
+      <div class="footnote">Чувствительность: при снижении веса защищаемости с 25% до 15% D остаётся первым (3,45 против 3,35 у A и 3,30 у B). Если защищаемость перестаёт быть приоритетом, преимущество D исчезает.</div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" aria-label="Решение">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">05 / Решение</div>
+          <h2>Выбрано D: конкурировать решением, а не ценой</h2>
+        </div>
+        <span class="slide-no">06 / 10</span>
+      </div>
+
+      <div class="decision">
+        <div class="decision__hero">
+          <div class="decision__letter">D</div>
+          <h2>Ускорение AI-дифференциации</h2>
+          <p class="lead" style="margin-top:10px">
+            Конкуренты сильны в поиске и данных. Малому бизнесу нужен вывод:
+            «стоит ли участвовать и почему». Мы уже строим этот слой — значит,
+            ближайший путь к ценности без нового источника и найма.
+          </p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:14px">
+            <span class="pill pill--blue">B — фокус охвата</span>
+            <span class="pill pill--gold">C — один пилот на 61–90</span>
+            <span class="pill pill--red">A — не делаем</span>
+          </div>
+          <div class="not-doing">
+            <b>Сознательно не делаем:</b> не снижаем 999 ₽, не строим дашборды, не подключаем коммерческие площадки без юр. аудита, не обещаем 100% покрытие.
+          </div>
+        </div>
+
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar__n">01</div>
+            <div class="pillar__t">Глубина документов</div>
+            <div class="pillar__d">PDF/DOCX/XLSX → требования, риски, обеспечения. Сканы без OCR — в бэклоге.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar__n">02</div>
+            <div class="pillar__t">Досье заказчика</div>
+            <div class="pillar__d">История контрактов, снижение, расторжения, топ-5 поставщиков. Уже считается по ИНН.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar__n">03</div>
+            <div class="pillar__t">Объяснимая рекомендация</div>
+            <div class="pillar__d">OverallScore считается формулой в C#, GPT даёт компоненты. Есть confidence и ссылки.</div>
+          </div>
+          <div class="pillar">
+            <div class="pillar__n">04</div>
+            <div class="pillar__t">Данные исходов</div>
+            <div class="pillar__d">«Участвовал / результат» → калибровка. Цель — precision@participate ≥ 70%.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="card" style="padding:11px 14px">
+          <div class="card__label">Что должно быть правдой</div>
+          <div class="small">999 ₽ платят за решение, а не за базу; deep analysis экономит время; COGS ≤ 150 ₽/юзер.</div>
+        </div>
+        <div class="card" style="padding:11px 14px">
+          <div class="card__label">Главный риск решения</div>
+          <div class="small">R-09: рекомендация ошибается. Лечим golden set, confidence, источниками и сбором исходов.</div>
+        </div>
+        <div class="card" style="padding:11px 14px">
+          <div class="card__label">Точка пересмотра</div>
+          <div class="small">Если precision &lt; 60% или Free→Pro &lt; 1% к 90-му дню — пересмотр в пользу B или C.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" aria-label="План 30/60/90">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">06 / План</div>
+          <h2>30 / 60 / 90: три gate вместо «делаем всё сразу»</h2>
+          <p class="lead">Каждый этап заканчивается проверяемым доказательством. Если gate не пройден — не масштабируем, а чиним.</p>
+        </div>
+        <span class="slide-no">07 / 10</span>
+      </div>
+
+      <div class="plan">
+        <div class="plan__col">
+          <div class="plan__num">30</div>
+          <div class="plan__days">Дни 1–30</div>
+          <div class="plan__title">Снять блокеры</div>
+          <ul class="clean">
+            <li><strong>Push end-to-end:</strong> Firebase → permission → FCM → доставка</li>
+            <li><strong>Биллинг 999 ₽:</strong> миграция, ЮKassa, webhook, cron</li>
+            <li><strong>Security gate:</strong> /hangfire, revoke, ForwardedHeaders</li>
+            <li><strong>Onboarding + paywall</strong> и первый релевантный тендер</li>
+            <li><strong>10 интервью + 3 design partners</strong>, baseline воронки</li>
+          </ul>
+          <div class="plan__facts">
+            <div class="plan__fact"><b>Артефакт</b><span>рабочий push, тестовая оплата 999 ₽, 10 интервью</span></div>
+            <div class="plan__fact"><b>Риск</b><span>R-01 (push) и R-07 (биллинг) — оба блокируют доход</span></div>
+            <div class="plan__fact"><b>Не делаем</b><span>платный трафик, новые фичи, найм</span></div>
+          </div>
+          <div class="plan__owner">Владельцы: CTO · продукт</div>
+          <div class="gate"><b>Gate:</b> push доставлен, тестовый платёж прошёл, 10 интервью, 0 критичных проблем безопасности.</div>
+        </div>
+
+        <div class="plan__col">
+          <div class="plan__num">60</div>
+          <div class="plan__days">Дни 31–60</div>
+          <div class="plan__title">Доказать качество</div>
+          <ul class="clean">
+            <li><strong>Golden set 20 тендеров:</strong> разные типы и отрасли</li>
+            <li><strong>Калибровка:</strong> промпт, confidence, запрет уверенных выводов при неполных данных</li>
+            <li><strong>Обратная связь v1:</strong> участвовал / результат</li>
+            <li><strong>3 сравнения</strong> с текущим процессом клиента</li>
+            <li><strong>Лендинг + RuStore</strong>, privacy/terms, 50 beta</li>
+          </ul>
+          <div class="plan__facts">
+            <div class="plan__fact"><b>Артефакт</b><span>golden set 20, отчёт precision, 3 кейса клиентов</span></div>
+            <div class="plan__fact"><b>Риск</b><span>R-09 — рекомендация ошибается на неполных данных</span></div>
+            <div class="plan__fact"><b>Не делаем</b><span>новые отрасли, языки и «умные» авторешения</span></div>
+          </div>
+          <div class="plan__owner">Владельцы: продукт · CTO · маркетинг</div>
+          <div class="gate"><b>Gate:</b> precision@participate ≥ 70%, activation ≥ 40%, D7 ≥ 20%, 3 кейса.</div>
+        </div>
+
+        <div class="plan__col">
+          <div class="plan__num">90</div>
+          <div class="plan__days">Дни 61–90</div>
+          <div class="plan__title">Проверить экономику</div>
+          <ul class="clean">
+            <li><strong>2 платных канала</strong> с ограниченным бюджетом</li>
+            <li><strong>Упаковка без снижения 999 ₽:</strong> годовая оплата, Pro+, лимиты</li>
+            <li><strong>Retention/churn playbook</strong> и причины ухода</li>
+            <li><strong>Один партнёрский пилот</strong> (ЭТП / бухгалтерия / ассоциация)</li>
+            <li><strong>Решение scale / pivot</strong> по gate-метрикам</li>
+          </ul>
+          <div class="plan__facts">
+            <div class="plan__fact"><b>Артефакт</b><span>отчёт CAC/LTV, 2 платных канала, решение scale / pivot</span></div>
+            <div class="plan__fact"><b>Риск</b><span>R-03 (нет спроса) и R-04 (GPT съедает маржу)</span></div>
+            <div class="plan__fact"><b>Не делаем</b><span>скидки, демпинг и рост бюджета «на всякий случай»</span></div>
+          </div>
+          <div class="plan__owner">Владельцы: CEO · маркетинг · продажи</div>
+          <div class="gate"><b>Gate:</b> CAC payback ≤ 3 мес, Free→Pro ≥ 3%, retention M1 ≥ 40%, COGS ≤ 150 ₽.</div>
+        </div>
+      </div>
+
+      <div class="footnote">Целевые значения — гипотезы H3–H8 из курсового плана. После первых 100 регистраций baseline пересчитывается и фиксируется в decision log.</div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" aria-label="Коммуникации">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">07 / Коммуникация</div>
+          <h2>Один A на решение, один тред на инцидент</h2>
+          <p class="lead">Telegram — оперативка, Notion — решения и риски, Trello — задачи. Решение, принятое в DM, не существует.</p>
+        </div>
+        <span class="slide-no">08 / 10</span>
+      </div>
+
+      <div class="comms">
+        <div>
+          <div class="roles">
+            <span class="pill pill--gold">Продукт / CEO</span>
+            <span class="pill pill--blue">Разработка / CTO</span>
+            <span class="pill">Маркетинг</span>
+            <span class="pill">Продажи / поддержка</span>
+          </div>
+
+          <table class="raci" aria-label="RACI">
+            <thead>
+              <tr>
+                <th>Решение</th>
+                <th>CEO</th>
+                <th>CTO</th>
+                <th>MKT</th>
+                <th>Sales</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Релиз в RuStore</td><td class="c">C</td><td class="a">A/R</td><td class="c">C</td><td class="i">I</td></tr>
+              <tr><td>Изменение цены</td><td class="a">A</td><td class="r">R</td><td class="c">C</td><td class="c">C</td></tr>
+              <tr><td>Инцидент P1</td><td class="c">C</td><td class="a">A/R</td><td class="c">C</td><td class="r">R</td></tr>
+              <tr><td>Найм</td><td class="a">A/R</td><td class="c">C</td><td class="c">C</td><td class="c">C</td></tr>
+              <tr><td>Промпт / скоринг</td><td class="c">C</td><td class="a">A/R</td><td class="i">I</td><td class="c">C</td></tr>
+            </tbody>
+          </table>
+          <div class="tiny muted" style="margin-top:8px">A — отвечает за результат, R — делает, C — консультирует, I — информируется. A всегда один.</div>
+
+          <div class="escalation">
+            <b>Эскалация:</b> P1 — 15 мин CTO, 30 мин CEO, статус каждые 30 мин, postmortem за 48 ч. Тупик в решении — 24 ч, дальше решает CEO. После решения — disagree and commit.
+          </div>
+        </div>
+
+        <div>
+          <div class="card__label" style="margin-bottom:7px">Ритм встреч</div>
+          <div class="rhythm">
+            <div class="rhythm__row"><div class="rhythm__name">Daily standup</div><div class="rhythm__desc">15 мин, 10:00 MSK; вт/чт — асинхронно. Выход: блокеры с владельцем и ETA</div></div>
+            <div class="rhythm__row"><div class="rhythm__name">Weekly review</div><div class="rhythm__desc">45 мин, пятница. Метрики → топ-5 рисков → решения, а не статусы</div></div>
+            <div class="rhythm__row"><div class="rhythm__name">Retro</div><div class="rhythm__desc">60 мин раз в 2 недели. 1–2 изменения процесса с владельцем и датой</div></div>
+            <div class="rhythm__row"><div class="rhythm__name">Planning</div><div class="rhythm__desc">90 мин раз в 2 недели. Цель спринта, capacity и явные не-цели</div></div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:9px">
+            <div class="card" style="padding:10px 12px">
+              <div class="card__label">Decision log</div>
+              <div class="tiny">ID, вопрос, альтернативы, решение, почему, владелец, эффект, дата пересмотра. Не редактируется — заменяется новой записью.</div>
+            </div>
+            <div class="card" style="padding:10px 12px">
+              <div class="card__label">Правило треда</div>
+              <div class="tiny">Один инцидент = один тред в #incidents. Итог — в Notion. Персональные данные клиентов в Telegram не пересылаются.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="channels">
+        <div class="channel"><b>Telegram</b><span>Оперативка, P1-инциденты, быстрые решения</span><em>Ответ ≤ 2 ч в рабочее время</em></div>
+        <div class="channel"><b>Notion</b><span>Решения, риски, ретро, база знаний</span><em>Ответ ≤ 24 ч, запись обязательна</em></div>
+        <div class="channel"><b>Trello</b><span>Задачи, владельцы, сроки, WIP-лимит</span><em>Статус ежедневно до 18:00</em></div>
+        <div class="channel"><b>Email</b><span>Внешние клиенты, партнёры, документы</span><em>Ответ ≤ 1 рабочего дня</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" aria-label="Возражения">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">08 / Клиенты</div>
+          <h2>Возражения: сначала выяснить, потом факт</h2>
+          <p class="lead">Не «убедить клиента», а помочь ему принять решение. Если продукт не подходит — сказать прямо.</p>
+        </div>
+        <span class="slide-no">09 / 10</span>
+      </div>
+
+      <div class="obj-layout">
+        <div class="obj-grid">
+          <div class="obj"><div class="obj__q">«Дорого»</div><div class="obj__a">999 ₽ фикс, без % от контракта — дешевле одного пропущенного аукциона. Free для проверки на своём потоке, карта не нужна.</div></div>
+          <div class="obj"><div class="obj__q">«Ищем вручную»</div><div class="obj__a">Ручной поиск не проверяет 44/223 каждые 5 минут и не читает 20 документов. Считаем время на закупку и сравниваем на ваших примерах.</div></div>
+          <div class="obj"><div class="obj__q">«Не доверяем AI»</div><div class="obj__a">Оценка + confidence + риски + ссылка на документ: видно, откуда вывод. Решение принимает человек, продукт только объясняет.</div></div>
+          <div class="obj"><div class="obj__q">«Есть Тендерплан»</div><div class="obj__a">Не замена, а слой решения поверх поиска. Предлагаем сравнить на 3 реальных закупках и оставить то, что сэкономило время.</div></div>
+          <div class="obj"><div class="obj__q">«Нет времени»</div><div class="obj__a">Один диалог вместо форм: профиль собирается из ответов. Первый профиль — на Free, без карты и звонка.</div></div>
+          <div class="obj"><div class="obj__q">«Данные утекут»</div><div class="obj__a">Минимум данных, чат на устройстве, карты — в ЮKassa. Честно перечисляем незакрытые меры и сроки, не обещаем сертификаты.</div></div>
+          <div class="obj"><div class="obj__q">«Только крупные»</div><div class="obj__a">Фильтр по цене есть, но тендерный отдел мы не заменяем. Если нужен штат на 5 человек — прямо говорим, что это не наш сегмент.</div></div>
+          <div class="obj"><div class="obj__q">«А если пропустите?»</div><div class="obj__a">Мониторинг каждые 5 минут + алерты парсера при сбое. 100% не гарантируем и ручную проверку не отменяем — это в договоре и в онбординге.</div></div>
+        </div>
+
+        <div>
+          <div class="card__label" style="margin-bottom:8px">Каркас ответа</div>
+          <div class="steps">
+            <div class="step"><div class="step__n">1</div><div class="step__t"><b>Выяснить</b> текущий процесс и цену ошибки, а не начинать с презентации</div></div>
+            <div class="step"><div class="step__n">2</div><div class="step__t"><b>Признать</b> возражение: «понимаю, почему это важно»</div></div>
+            <div class="step"><div class="step__n">3</div><div class="step__t"><b>Дать факт</b> продукта, а не общие слова</div></div>
+            <div class="step"><div class="step__n">4</div><div class="step__t"><b>Предложить шаг:</b> 3 закупки, демо, первый профиль</div></div>
+          </div>
+
+          <div class="card" style="margin-top:10px;padding:11px 13px;border-color:rgba(255,107,107,.28);background:rgba(255,107,107,.06)">
+            <div class="card__label" style="color:#FFC2C2">Красные флаги</div>
+            <div class="tiny" style="color:#FFD0D0">
+              Обещать 100% тендеров · критиковать конкурента · давать скидку без CEO · обещать фичу вне roadmap · говорить «AI всё сделает за вас».
+            </div>
+          </div>
+
+          <div class="tiny muted" style="margin-top:9px">
+            Ролевая игра: клиент с Тендерпланом → менеджер выясняет, что проблема в отборе, а не в поиске → предлагает сравнить 3 закупки → честно отвечает про ошибки AI и 100% покрытие.
+          </div>
+        </div>
+      </div>
+
+      <div class="footnote">Полные ответы, ролевая игра на 7 реплик и чек-лист наблюдателя — в 05-client-objections.md.</div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" aria-label="Выводы">
+    <div class="inner">
+      <div class="slide-head">
+        <div>
+          <div class="kicker">09 / Выводы</div>
+          <h2>Что забираем в работу</h2>
+          <p class="lead">Решение принято, риски расставлены, коммуникация зафиксирована. Дальше — три проверяемых шага, а не «улучшить всё».</p>
+        </div>
+        <span class="slide-no">10 / 10</span>
+      </div>
+
+      <div class="concl">
+        <div class="concl__list">
+          <div class="concl__item"><div class="concl__n">01</div><div class="concl__t"><b>Конкуренция выигрывается решением, а не ценой.</b> Тендерплан и Контур сильны в данных; наша ставка — «стоит ли участвовать» и объяснение почему.</div></div>
+          <div class="concl__item"><div class="concl__n">02</div><div class="concl__t"><b>Риск №1 — не конкурент, а недоделанный push.</b> Без доставки уведомлений обещание «мониторим за вас» не работает. Это релизный блокер, а не фича.</div></div>
+          <div class="concl__item"><div class="concl__n">03</div><div class="concl__t"><b>90 дней = три gate:</b> деньги (push + оплата), качество (precision ≥ 70%), канал (CAC payback ≤ 3 мес). Не прошли — не масштабируем.</div></div>
+          <div class="concl__item"><div class="concl__n">04</div><div class="concl__t"><b>Коммуникация — это система:</b> один A на решение, decision log, P1 за 15 минут, «disagree and commit» после решения.</div></div>
+          <div class="concl__item"><div class="concl__n">05</div><div class="concl__t"><b>Честные ограничения продают лучше гарантий.</b> «100% не обещаем, но показываем источник и алертим о сбое» вызывает больше доверия, чем «AI всё сделает».</div></div>
+        </div>
+
+        <div>
+          <div class="card__label" style="margin-bottom:8px">Следующие 3 шага</div>
+          <div class="next">
+            <div class="next__card"><div class="next__k">1 · до 30 дней</div><div class="next__v">Закрыть R-01 и R-07: push end-to-end + тестовый платёж 999 ₽</div></div>
+            <div class="next__card"><div class="next__k">2 · до 30 дней</div><div class="next__v">10 интервью с ICP и 3 design partners на реальных закупках</div></div>
+            <div class="next__card"><div class="next__k">3 · до 60 дней</div><div class="next__v">Golden set 20 тендеров и политика confidence</div></div>
+          </div>
+
+          <div class="doclinks">
+            <a href="README.md">README</a>
+            <a href="01-swot.md">SWOT</a>
+            <a href="02-risk-register.md">Риски</a>
+            <a href="03-decision-case.md">Кейс</a>
+            <a href="04-communication-plan.md">Коммуникация</a>
+            <a href="05-client-objections.md">Возражения</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card__label" style="margin-top:10px;margin-bottom:6px">Gate-метрики к 90-му дню · гипотезы H3–H8</div>
+      <div class="metrics-strip" style="margin-top:0">
+        <div class="metric"><b>≥ 70%</b><span>precision@participate на golden set из 20 тендеров</span></div>
+        <div class="metric"><b>≥ 3%</b><span>конверсия Free → Pro при цене 999 ₽/мес</span></div>
+        <div class="metric"><b>≥ 40%</b><span>retention M1 после первого оплаченного месяца</span></div>
+        <div class="metric"><b>≤ 150 ₽</b><span>COGS на активного пользователя в месяц</span></div>
+        <div class="metric"><b>≤ 3 мес</b><span>CAC payback по платным каналам</span></div>
+      </div>
+
+      <div class="footnote">TenderScope · Практическое занятие №9 · Кейс №6 «Высокая конкуренция» · 02.11.2026. Все цифры — факты из PROJECT_CONTEXT.md или явно помеченные гипотезы.</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="hud">
+  <div class="hud__left"><b>TenderScope</b> · ПЗ №9 · Кейс №6</div>
+  <div class="hud__right">
+    <span class="hint">← → · пробел · Home / End</span>
+    <button class="navbtn" id="prev" aria-label="Предыдущий слайд">‹</button>
+    <span class="counter" id="counter">01 / 10</span>
+    <button class="navbtn" id="next" aria-label="Следующий слайд">›</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  const bar = document.getElementById('bar');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let current = 0;
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function show(index, pushHash){
+    current = Math.max(0, Math.min(index, slides.length - 1));
+    slides.forEach((slide, i) => {
+      const active = i === current;
+      slide.classList.toggle('active', active);
+      slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    counter.textContent = pad(current + 1) + ' / ' + pad(slides.length);
+    bar.style.width = ((current + 1) / slides.length * 100) + '%';
+    prev.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+    if (pushHash) {
+      history.replaceState(null, '', '#' + (current + 1));
+    }
+  }
+
+  function go(delta){ show(current + delta, true); }
+
+  document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    if (key === 'ArrowRight' || key === 'ArrowDown' || key === 'PageDown' || key === ' ' || key === 'Enter') {
+      e.preventDefault(); go(1);
+    } else if (key === 'ArrowLeft' || key === 'ArrowUp' || key === 'PageUp' || key === 'Backspace') {
+      e.preventDefault(); go(-1);
+    } else if (key === 'Home') {
+      e.preventDefault(); show(0, true);
+    } else if (key === 'End') {
+      e.preventDefault(); show(slides.length - 1, true);
+    }
+  });
+
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+
+  let touchX = null;
+  document.addEventListener('touchstart', (e) => {
+    touchX = e.changedTouches[0].clientX;
+  }, {passive:true});
+  document.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+    touchX = null;
+  }, {passive:true});
+
+  const fromHash = parseInt(location.hash.replace('#',''), 10);
+  show(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0, false);
+})();
+</script>
+</body>
+</html>

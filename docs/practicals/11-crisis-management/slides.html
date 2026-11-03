@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../../../landing/assets/favicon.svg" type="image/svg+xml">
+  <title>TenderScope — практическое занятие №11</title>
+  <style>
+    :root{--ink:#1F1F1F;--blue:#4F7CFF;--gold:#FFB547;--paper:#f7f8fc}*{box-sizing:border-box}body{margin:0;background:#111;color:var(--ink);font-family:Inter,Arial,sans-serif}.deck{height:100vh;overflow:hidden}.slide{display:none;min-height:100vh;padding:7vh 9vw;background:var(--paper);position:relative}.slide.active{display:flex;flex-direction:column;justify-content:center}.slide:after{content:attr(data-no);position:absolute;right:5vw;bottom:4vh;color:#9aa2b5;font-weight:700}.kicker{color:var(--blue);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:clamp(12px,1.5vw,18px)}h1{font-size:clamp(38px,6vw,82px);line-height:1.02;margin:.3em 0;color:var(--ink)}h2{font-size:clamp(30px,4vw,56px);margin:.2em 0 .5em}h3{color:var(--blue);margin-bottom:.35em}p,li{font-size:clamp(17px,2vw,28px);line-height:1.35}ul{padding-left:1.15em;max-width:1100px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2vw}.card{background:#fff;border-left:6px solid var(--blue);padding:1.2em 1.4em;box-shadow:0 10px 30px #1f1f1f12}.card.gold{border-color:var(--gold)}.tag{display:inline-block;background:var(--gold);padding:.35em .7em;border-radius:99px;font-weight:800}.small{font-size:clamp(14px,1.3vw,19px);color:#5c6475}.controls{position:fixed;bottom:2vh;left:50%;transform:translateX(-50%);color:#aab0bf;font-size:14px}@media(max-width:700px){.slide{padding:8vh 7vw}.grid{grid-template-columns:1fr}p,li{font-size:18px}}@media print{body{background:#fff}.deck{height:auto;overflow:visible}.slide,.slide.active{display:flex;min-height:100vh;page-break-after:always}.controls{display:none}}
+</style>
+<style>
+  /* TenderScope brand alignment and stable PDF export. */
+  body { font-family: "Manrope", "Segoe UI", Arial, sans-serif; }
+  @media print {
+    @page { size: 16in 9in; margin: 0; }
+    html, body { height: auto; overflow: visible; background: #F5F5F7; }
+    .deck { height: auto; overflow: visible; }
+    .slide, .slide.active { display: flex; width: 100vw; height: 56.25vw; min-height: 0; page-break-after: always; break-after: page; }
+    .slide:last-of-type { page-break-after: auto; break-after: auto; }
+    .controls { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<main class="deck">
+  <section class="slide active" data-no="01"><span class="kicker">Практическое занятие №11</span><h1>Кризисное управление<br>и адаптация рынка</h1><p><span class="tag">TenderScope</span> Мобильный помощник для ИП и малых ООО в госзакупках РФ</p><p class="small">Учебные сценарии, не описание произошедших событий</p></section>
+  <section class="slide" data-no="02"><span class="kicker">Исходная точка</span><h2>Факты и ограничения</h2><div class="grid"><div class="card"><h3>Факты</h3><ul><li>MVP-конвейер собран end-to-end</li><li>44-ФЗ и 223-ФЗ через zakupki.gov.ru</li><li>Публичных пользователей и выручки пока нет</li></ul></div><div class="card gold"><h3>Перед релизом</h3><ul><li>Нужны безопасность и деплой</li><li>Платежи, push и paywall не завершены</li><li>Есть риски парсинга и AI-стоимости</li></ul></div></div></section>
+  <section class="slide" data-no="03"><span class="kicker">Кейс №5</span><h2>Обновление сломало часть продукта</h2><p>Симптомы: crash или зависание, 4xx/5xx, несовместимый API, пустая лента, таймауты GPT, ошибочные данные.</p><p><b>Масштаб пока неизвестен.</b> Проверяем корреляцию с версией клиента, ОС, endpoint, типом аккаунта и временем релиза.</p></section>
+  <section class="slide" data-no="04"><span class="kicker">Первые 30 минут</span><h2>Сначала факты</h2><div class="grid"><div class="card"><h3>0–15 мин</h3><p>Остановить rollout, собрать error/crash/latency, diff deploy/config/migration, проверить backup.</p></div><div class="card gold"><h3>15–30 мин</h3><p>Воспроизвести Free/Pro, определить blast radius, заморозить опасные job, вести incident log.</p></div></div><p class="small">Не называть процент пользователей и причину без evidence.</p></section>
+  <section class="slide" data-no="05"><span class="kicker">Реакция</span><h2>15 минут → час → сутки → 7 дней</h2><ul><li><b>15 минут:</b> IC, severity, freeze, сохранение логов.</li><li><b>1 час:</b> flag/rollback/read-only, smoke-check, статус каждые 30–60 минут.</li><li><b>1 сутки:</b> восстановление, сверка данных, controlled rollout.</li><li><b>7 дней:</b> postmortem, tests, canary, alerts, backup restore drill.</li></ul></section>
+  <section class="slide" data-no="06"><span class="kicker">Ответственность</span><h2>Роли, а не вымышленные имена</h2><p>Incident Commander задаёт приоритеты. Release/DevOps откатывает. Backend и Mobile ищут регрессию. Data/DB проверяет restore и целостность. Support/Comms сообщает. Security/Privacy оценивает утечку. Scribe ведёт timeline.</p><p class="small">Совмещение ролей и резервных владельцев команда заполняет перед релизом.</p></section>
+  <section class="slide" data-no="07"><span class="kicker">Сценарий №7</span><h2>Крупный конкурент: защищаем фокус</h2><p>Не ценовая война и не попытка стать «всем для всех».</p><div class="card"><h3>Защищаемая гипотеза ценности</h3><p>Быстрый мобильный помощник для ИП и малых ООО без тендерного отдела: запрос → релевантная лента → понятный AI-анализ с ограничениями и источниками.</p></div></section>
+  <section class="slide" data-no="08"><span class="kicker">30 / 60 / 90 дней</span><h2>Проверить → усилить → масштабировать</h2><ul><li><b>30:</b> интервью, baseline, onboarding и качество релевантности.</li><li><b>60:</b> trust/data quality, вертикальные сценарии, тест цены 999 ₽ как гипотезы.</li><li><b>90:</b> выбрать канал по активации и удержанию, публиковать только реальные доказательства.</li></ul></section>
+  <section class="slide" data-no="09"><span class="kicker">Критерий решений</span><h2>Метрики — только целевые гипотезы</h2><div class="grid"><div class="card"><p>Активация до первой ленты ≥40%</p><p>7-day return ≥25%</p><p>Релевантность ≥70%</p></div><div class="card gold"><p>AI-основания ≥95%</p><p>Оплата активированных ≥5%</p><p>Ошибки ≤5% сессий</p></div></div><p class="small">Сначала настроить аналитику и baseline. Если пороги не достигнуты — менять продукт/сегмент, а не увеличивать рекламу.</p></section>
+</main><div class="controls">← → или пробел · печать в PDF: Ctrl/Cmd+P</div>
+<script>const slides=[...document.querySelectorAll('.slide')];let i=0;function show(n){i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===i))}document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(i+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}});</script>
+</body></html>

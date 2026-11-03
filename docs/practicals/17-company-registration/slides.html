@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../../../landing/assets/favicon.svg" type="image/svg+xml">
+  <title>TenderScope — Практическое занятие №17</title>
+  <style>
+    :root { --bg:#0b1220; --card:#14213a; --ink:#f4f7fb; --muted:#b7c4d8; --accent:#67e8f9; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink); font:20px/1.45 system-ui, sans-serif; }
+    .deck { min-height:100vh; } .slide { display:none; min-height:100vh; padding:7vh 9vw; }
+    .slide.active { display:block; } h1 { font-size:clamp(36px,6vw,76px); line-height:1.05; margin:0 0 24px; color:var(--accent); }
+    h2 { font-size:clamp(30px,4vw,52px); margin:0 0 28px; color:var(--accent); } h3 { color:#fbbf24; }
+    li { margin:12px 0; } .box { background:var(--card); border:1px solid #2d4266; border-radius:16px; padding:22px 28px; margin:18px 0; }
+    .small { color:var(--muted); font-size:.78em; } table { width:100%; border-collapse:collapse; background:var(--card); font-size:.8em; }
+    th,td { text-align:left; padding:10px; border-bottom:1px solid #355071; } th { color:var(--accent); }
+    .footer { position:fixed; bottom:16px; left:9vw; right:9vw; display:flex; justify-content:space-between; color:var(--muted); font-size:14px; }
+    @media print { body { background:white; color:#111; } .slide { display:block; min-height:100vh; break-after:page; padding:2cm; } h1,h2 { color:#075985; } .box,table { background:#f4f7fb; border-color:#aaa; } .footer { display:none; } }
+  </style>
+  <style>
+    :root { --bg:#1F1F1F; --card:#262626; --ink:#F5F5F7; --muted:#9A9A9F; --accent:#4F7CFF; }
+    body { font-family: "Manrope", "Segoe UI", Arial, sans-serif; }
+    @media print {
+      @page { size: 16in 9in; margin: 0; }
+      html, body { height: auto; overflow: visible; background: var(--bg); }
+      .deck { min-height: 0; }
+      .slide, .slide.active { display: block; width: 100vw; height: 56.25vw; min-height: 0; page-break-after: always; break-after: page; }
+      .slide:last-of-type { page-break-after: auto; break-after: auto; }
+      .footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+<main class="deck">
+  <section class="slide active"><h1>TenderScope</h1><h2>Практическое занятие №17</h2><p>Регистрация компании. Юридические аспекты</p><div class="box">Учебная модель ООО · дата: 03.11.2026</div><p class="small">Не является заявлением, юридическим или налоговым заключением.</p></section>
+  <section class="slide"><h2>Фактический статус проекта</h2><ul><li>В PROJECT_CONTEXT.md: «Регистрация ИП подана/получена; далее подключить ЮKassa как ИП».</li><li>Дата, ОГРНИП, ИНН и результат не указаны.</li><li>ООО в этой презентации — отдельный учебный сценарий.</li></ul><div class="box">Не подавать документы, не открывать счёт и не регистрировать компанию по этому материалу.</div></section>
+  <section class="slide"><h2>Комплект регистрации ООО</h2><ul><li>Р11001.</li><li>Решение единственного учредителя или протокол.</li><li>Устав либо проверенный типовой устав.</li><li>Адрес с документом-основанием.</li><li>Сведения об учредителях, долях, капитале, директоре и ОКВЭД.</li></ul><p class="small">Все неизвестные сведения остаются placeholders.</p></section>
+  <section class="slide"><h2>Устав и корпоративные решения</h2><ul><li>Устав: статус, адрес, капитал, доли, органы, прибыль, реорганизация.</li><li>Решение: создание, устав, капитал, директор, ОКВЭД, заявитель.</li><li>Протокол: участники, повестка, голоса и те же решения.</li></ul><div class="box">Подписи и реквизиты заполняются только по оригиналам документов.</div></section>
+  <section class="slide"><h2>Что собрать для Р11001</h2><ul><li>Название и адрес.</li><li>Учредители и доли.</li><li>Директор и заявитель.</li><li>Основной/дополнительные ОКВЭД.</li><li>Устав или номер типового устава.</li></ul><p class="small">Перед подачей — проверка сервиса ФНС и сверка с документами.</p></section>
+  <section class="slide"><h2>Режимы: рабочая гипотеза</h2><ul><li>ОСНО: НДС и прибыль, больше администрирования.</li><li>УСН «доходы»: простая база, взносы могут уменьшать налог.</li><li>УСН «доходы − расходы»: важны подтверждённые расходы и региональная ставка.</li><li>АУСН: 8%/20%, лимит 60 млн, до 5 работников, уполномоченный банк и регион.</li></ul><div class="box">Для SaaS считать обе УСН; решение подтверждает бухгалтер.</div></section>
+  <section class="slide"><h2>Актуальные ориентиры ФНС на 2026</h2><ul><li>УСН: доход до 490,5 млн, до 130 работников, ОС до 218 млн.</li><li>Освобождение УСН от НДС: порог предыдущего года 20 млн.</li><li>Общая ставка НДС: 22%.</li><li>Взносы: 30% в пределах базы 2 979 000 руб. на человека.</li></ul><p class="small">Проверять правила повторно в день реального действия.</p></section>
+  <section class="slide"><h2>Учебный расчёт квартала</h2><p>999 ₽/мес. × 3 месяца. Два сотрудника по 100 000 ₽/мес.; зарплата 600 000, взносы 180 000. Прочие расходы = 20% выручки. НДС = 0 при допущении освобождения.</p><table><tr><th>Подписчики</th><th>Выручка</th><th>УСН 6%*</th><th>УСН Д-Р*</th></tr><tr><td>100</td><td>299 700</td><td>8 991</td><td>2 997</td></tr><tr><td>500</td><td>1 498 500</td><td>44 955</td><td>62 820</td></tr><tr><td>1 000</td><td>2 997 000</td><td>89 910</td><td>242 640</td></tr></table><p class="small">* Модель с ограничением уменьшения на взносы и минимальным налогом; не бухгалтерский расчёт.</p></section>
+  <section class="slide"><h2>Первый месяц: контрольные точки</h2><ul><li>Дни 1–3: получить документы ЕГРЮЛ, проверить данные.</li><li>Дни 1–7: режим, банк, бухгалтерия.</li><li>Дни 3–10: КЭП и ЭДО.</li><li>Дни 5–15: кадры и персональные данные.</li><li>Дни 15–30: договоры, первичка, закрытие месяца и календарь отчётности.</li></ul></section>
+  <section class="slide"><h2>Что обязательно проверить</h2><ul><li>Режим, ставки региона, НДС и взносы.</li><li>ОКВЭД и ИТ-льготы: аккредитация и условия не предполагаются автоматически.</li><li>Касса, чеки подписки, оферта, возвраты и эквайринг.</li><li>ПДн, трудовые документы, права на код и бренд.</li></ul><p class="small">Юрист проверяет устав/договоры, бухгалтер — расчёты и отчётность.</p></section>
+  <section class="slide"><h2>Итог и источники</h2><div class="box"><b>Нужно подставить:</b> ФИО и данные основателя, учредителей и директора, название, адрес, доли, капитал, ОКВЭД, заявителя и банковские реквизиты.</div><p>Расчёты — учебные; ООО не зарегистрировано.</p><p class="small">ФНС: nalog.gov.ru — регистрация ЮЛ, Р11001, УСН/НДС, страховые взносы; ausn.nalog.gov.ru — АУСН. Доступ к источникам: 03.11.2026.</p></section>
+</main>
+<div class="footer"><span id="counter"></span><span>← → / пробел · P — печать</span></div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')]; let i=0;
+  function show(n){i=(n+slides.length)%slides.length; slides.forEach((s,k)=>s.classList.toggle('active',k===i)); document.querySelector('#counter').textContent=`${i+1} / ${slides.length}`;}
+  addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key))show(i+1); if(['ArrowLeft','PageUp'].includes(e.key))show(i-1); if(e.key.toLowerCase()==='p')print();}); show(0);
+</script>
+</body></html>
